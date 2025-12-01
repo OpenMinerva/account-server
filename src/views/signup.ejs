@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>PrismLens | Create Account</title>
+	<%- include('partials/head') %>
+</head>
+
+<body>
+	<form class="login-container" method="post" action="/api/v1/createUser">
+		<div class="logo">
+			<img src="/img/logoSmall.webp" alt="PrismLens Logo">
+			<div>PrismLens</div>
+		</div>
+		<div class="text-entry">
+			<div class="title">Username</div>
+			<input name="username" type="text" placeholder="Enter your username">
+		</div>
+		<div class="text-entry">
+			<div class="title">Password</div>
+			<input name="password" type="password" placeholder="Enter your password">
+		</div>
+		<div class="text-entry last">
+			<div class="title">Password Confirmation</div>
+			<input name="passwordConfirm" type="password" placeholder="Enter your password again">
+		</div>
+		<div class="button-container">
+			<button type="submit">Create</button>
+		</div>
+	</form>
+</body>
+
+</html>
