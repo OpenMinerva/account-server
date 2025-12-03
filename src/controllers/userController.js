@@ -37,6 +37,15 @@ const create = async (req, res, next) => {
 };
 
 const updateUsername = async (req, res, next) => {
+	// Validate request
+	if (req.requestingUser.id != req.body.id) {
+		if (req.accepts("html")) {
+			return res.redirect(`/account/${req.body.id}`);
+		} else {
+			return res.json({ ok: false });
+		}
+	}
+
 	logger.info(`Updating username for '${req.body.id}'.`, {
 		...LOGGER_LABEL,
 		function: "create",
@@ -51,6 +60,15 @@ const updateUsername = async (req, res, next) => {
 };
 
 const updatePassword = async (req, res, next) => {
+	// Validate request
+	if (req.requestingUser.id != req.body.id) {
+		if (req.accepts("html")) {
+			return res.redirect(`/account/${req.body.id}`);
+		} else {
+			return res.json({ ok: false });
+		}
+	}
+
 	logger.info(`Updating password for '${req.body.id}'.`, {
 		...LOGGER_LABEL,
 		function: "create",

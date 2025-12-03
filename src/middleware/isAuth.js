@@ -7,7 +7,7 @@ module.exports = function auth(req, res, next) {
 
 	try {
 		const decoded = jwt.verify(token, authController.jwtToken());
-		req.user = decoded;
+		req.requestingUser = decoded;
 		next();
 	} catch {
 		next();

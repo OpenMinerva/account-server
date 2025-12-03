@@ -1,6 +1,6 @@
 const getIndex = async (req, res, next) => {
 	try {
-		res.render("index", { user: req.user });
+		res.render("index", { requestingUser: req.requestingUser });
 	} catch (err) {
 		next(err);
 	}
@@ -8,7 +8,7 @@ const getIndex = async (req, res, next) => {
 
 const getSignup = async (req, res, next) => {
 	try {
-		res.render("signup", { user: req.user });
+		res.render("signup", { requestingUser: req.requestingUser });
 	} catch (err) {
 		next(err);
 	}
