@@ -73,7 +73,7 @@ async function remove(req, res) {
 		maxAge: 0,
 	};
 
-	if (!req.user) {
+	if (!req.requestingUser) {
 		logger.info(`Tried to log out an unauthenticated user.`, { ...LOGGER_LABEL, function: "remove" });
 
 		if (req.accepts("html")) {
@@ -85,7 +85,7 @@ async function remove(req, res) {
 		return;
 	}
 
-	const token = jwt.sign({ id: req.user.id }, getSecret(), { expiresIn: "1" });
+	const token = jwt.sign({ id: req.requestingUser.id }, getSecret(), { expiresIn: "1" });
 
 	if (req.accepts("html")) {
 		res.cookie("token", token, COOKIE_SETTINGS).redirect("/");
@@ -93,7 +93,7 @@ async function remove(req, res) {
 		res.cookie("token", token, COOKIE_SETTINGS).json({ ok: true });
 	}
 
-	logger.info(`Signed user ${req.user.id} out`, { ...LOGGER_LABEL, function: "remove" });
+	logger.info(`Signed user ${req.requestingUser.id} out`, { ...LOGGER_LABEL, function: "remove" });
 }
 
 module.exports = { get, post, remove, jwtToken: getSecret };
