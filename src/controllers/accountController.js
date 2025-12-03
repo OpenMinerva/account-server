@@ -13,7 +13,12 @@ const getIndex = async (req, res, next) => {
 
 const getEdit = async (req, res, next) => {
 	try {
+		if (req.requestingUser.id !== req.params.id) {
+			return res.redirect(`/account/${req.params.id}`);
+		}
+
 		const targetUser = await userService.get({ id: req.params.id });
+
 		targetUser.dateCreated = timeService.timeToDayMonthYear(targetUser.dateCreated);
 		res.render("accountEdit", { targetUser, requestingUser: req.requestingUser });
 	} catch (err) {
