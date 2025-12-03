@@ -13,6 +13,17 @@ async function get(req, res) {
 
 async function post(req, res) {
 	const { username, password } = req.body;
+
+	if (!username || !password) {
+		if (req.accepts("html")) {
+			res.status(401).redirect("/?error='Invalid Credentials'");
+			return;
+		} else {
+			res.status(401).json({ error: "Invalid Credentials" });
+			return;
+		}
+	}
+
 	const desiredUser = await userService.get({ username, includePassword: true }, req.user);
 
 	if (!desiredUser) {
