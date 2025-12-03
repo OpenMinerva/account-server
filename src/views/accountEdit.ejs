@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>PrismLens | Account</title>
+		<%- include('partials/head') %>
+		<link rel="stylesheet" type="text/css" href="/css/setting.css" />
+	</head>
+
+	<body>
+		<%- include('partials/navbar') %>
+
+		<div class="page-content">
+			<!-- Username -->
+			<%- include('partials/edit/string', {settingName: "Username", value: targetUser.username}) %>
+
+			<!-- Password -->
+			<%- include('partials/edit/password', {settingName: "Password"}) %>
+		</div>
+	</body>
+</html>

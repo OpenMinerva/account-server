@@ -10,9 +10,14 @@ async function create(data) {
 	return userId;
 }
 
-async function update(id, data) {
-	logger.info(`Updating user '${id}'.`, { ...LOGGER_LABEL, function: "update" });
-	await db.updateUser(id, data);
+async function updateUsername(id, username) {
+	logger.info(`Updating username of '${id}'.`, { ...LOGGER_LABEL, function: "updateUsername" });
+	await db.updateUserUsername(id, username);
 }
 
-module.exports = { get, create, update };
+async function updatePassword(id, password) {
+	logger.info(`Updating password of '${id}'.`, { ...LOGGER_LABEL, function: "updatePassword" });
+	await db.updateUserPassword(id, password);
+}
+
+module.exports = { get, create, updateUsername, updatePassword };

@@ -77,3 +77,61 @@ body .button-container button:hover {
 body .button-container button:last-of-type {
   margin-right: 0;
 }
+body .navbar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  background-color: #4b4f53;
+}
+body .navbar .logo {
+  height: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+body .navbar .logo a {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  color: white;
+}
+body .navbar .logo a img {
+  height: 100%;
+}
+body .navbar .logo a span {
+  margin: auto auto auto 1rem;
+  font-size: 2rem;
+}
+body .navbar .nav {
+  margin: auto 0 auto auto;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+body .navbar .nav a {
+  height: 100%;
+  width: 100px;
+  background-color: #445c75;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  color: white;
+}
+body .navbar .nav a span {
+  margin: auto;
+}
+body .navbar .nav a:hover {
+  background-color: #2d3c4d;
+}
+body .page-content {
+  width: 1200px;
+  margin: 2rem auto;
+  background-color: #4b4f53;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+}

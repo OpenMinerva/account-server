@@ -68,4 +68,35 @@ async function insertUser({ username, password, role } = {}) {
 	}
 }
 
-module.exports = { getUser, insertUser, hashPassword };
+async function updateUserUsername(id, username) {
+	try {
+		const userResponse = await db.update(users).set({ username }).where(eq(users.id, id)).returning();
+		return userResponse[0];
+	} catch (e) {
+		const msg = e instanceof Error ? e.stack : String(e);
+		logger.error(`Unknown error trying to update a user username.`, {
+			...LOGGER_LABEL,
+			error: msg,
+			function: "updateUserUsername",
+		});
+		return { error: "Unknown error", e };
+	}
+}
+
+async function updateUserPassword(id, password) {
+	try {
+		const hashedPassword = await hashPassword(password);
+		const userResponse = await db.update(users).set({ password: hashedPassword }).where(eq(users.id, id)).returning();
+		return userResponse[0];
+	} catch (e) {
+		const msg = e instanceof Error ? e.stack : String(e);
+		logger.error(`Unknown error trying to update a user password.`, {
+			...LOGGER_LABEL,
+			error: msg,
+			function: "updateUserPassword",
+		});
+		return { error: "Unknown error", e };
+	}
+}
+
+module.exports = { getUser, insertUser, hashPassword, updateUserUsername, updateUserPassword };

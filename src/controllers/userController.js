@@ -36,13 +36,48 @@ const create = async (req, res, next) => {
 	}
 };
 
+const updateUsername = async (req, res, next) => {
+	logger.info(`Updating username for '${req.body.id}'.`, {
+		...LOGGER_LABEL,
+		function: "create",
+	});
+	await userService.updateUsername(req.body.id, req.body.Username);
+
+	if (req.accepts("html")) {
+		return res.redirect(`/account/${req.body.id}/edit`);
+	} else {
+		return res.json({ ok: true });
+	}
+};
+
+const updatePassword = async (req, res, next) => {
+	logger.info(`Updating password for '${req.body.id}'.`, {
+		...LOGGER_LABEL,
+		function: "create",
+	});
+
+	if (!passwordConfirmationMatches({ password: req.body.password, passwordConfirm: req.body.passwordConfirm })) {
+		if (req.accepts("html")) {
+			return res.redirect(`/account/${req.body.id}/edit?error='Passwords do not match'`);
+		} else {
+			return res.json({ ok: false });
+		}
+	}
+
+	await userService.updatePassword(req.body.id, req.body.password);
+
+	if (req.accepts("html")) {
+		return res.redirect(`/account/${req.body.id}/edit`);
+	} else {
+		return res.json({ ok: true });
+	}
+};
+
 function passwordConfirmationMatches(data) {
 	if (!data.password) {
-		logger.warn("No password supplied when trying to create a user.", { ...LOGGER_LABEL, function: "passwordConfirmationMatches" });
 		return false;
 	}
 	if (!data.passwordConfirm) {
-		logger.warn("No password confirmation supplied when trying to create a user.", { ...LOGGER_LABEL, function: "passwordConfirmationMatches" });
 		return false;
 	}
 
@@ -51,7 +86,6 @@ function passwordConfirmationMatches(data) {
 	}
 
 	if (data.password !== data.passwordConfirm) {
-		logger.info("Tried to make an account, but password did not match.", { ...LOGGER_LABEL, function: "passwordConfirmationMatches" });
 		return false;
 	}
 
@@ -59,4 +93,4 @@ function passwordConfirmationMatches(data) {
 	return false;
 }
 
-module.exports = { create };
+module.exports = { create, updateUsername, updatePassword };

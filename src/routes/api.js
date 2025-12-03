@@ -7,4 +7,7 @@ const authController = require("../controllers/authController");
 router.post("/v1/authenticate", authController.post);
 router.post("/v1/createUser", userController.create);
 
+router.post("/v1/user/username", userController.updateUsername);
+router.post("/v1/user/password", userController.updatePassword);
+
 module.exports = router;
