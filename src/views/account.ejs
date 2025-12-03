@@ -20,7 +20,9 @@
 					<div class="creation-date">Member since <%= targetUser.dateCreated %></div>
 				</div>
 				<div class="options">
+					<% if (requestingUser && requestingUser.id == targetUser.id) { %>
 					<a href="/account/<%= targetUser.id %>/edit"><span>Edit Profile</span></a>
+					<% } %>
 				</div>
 			</div>
 		</div>
