@@ -4,6 +4,12 @@ const timeService = require("../services/timeService");
 const getIndex = async (req, res, next) => {
 	try {
 		const targetUser = await userService.get({ id: req.params.id });
+
+		if (!targetUser) {
+			res.render("404", { requestingUser: req.requestingUser, errorMessage: "User not found." });
+			return;
+		}
+
 		targetUser.dateCreated = timeService.timeToDayMonthYear(targetUser.dateCreated);
 		res.render("account", { targetUser, requestingUser: req.requestingUser });
 	} catch (err) {
