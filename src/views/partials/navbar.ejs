@@ -1,0 +1,13 @@
+<div class="navbar">
+	<div class="logo">
+		<a href="/">
+			<img src="/img/logoSmall.webp" />
+			<span>PrismLens</span>
+		</a>
+	</div>
+	<div class="nav">
+		<% if (requestingUser) { %>
+		<a href="/api/logout"><span>Logout</span></a>
+		<% } %>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+const userService = require("../services/userService");
+const timeService = require("../services/timeService");
+
+const getIndex = async (req, res, next) => {
+	try {
+		const targetUser = await userService.get({ id: req.params.id });
+
+		if (!targetUser) {
+			res.render("404", { requestingUser: req.requestingUser, errorMessage: "User not found." });
+			return;
+		}
+
+		targetUser.dateCreated = timeService.timeToDayMonthYear(targetUser.dateCreated);
+		res.render("account", { targetUser, requestingUser: req.requestingUser });
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getEdit = async (req, res, next) => {
+	try {
+		if (req.requestingUser.id !== req.params.id) {
+			return res.redirect(`/account/${req.params.id}`);
+		}
+
+		const targetUser = await userService.get({ id: req.params.id });
+
+		targetUser.dateCreated = timeService.timeToDayMonthYear(targetUser.dateCreated);
+		res.render("accountEdit", { targetUser, requestingUser: req.requestingUser });
+	} catch (err) {
+		next(err);
+	}
+};
+
+module.exports = { getIndex, getEdit };

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>PrismLens | Account</title>
+		<%- include('partials/head') %>
+		<link rel="stylesheet" type="text/css" href="/css/account.css" />
+	</head>
+
+	<body>
+		<%- include('partials/navbar') %>
+
+		<div class="page-content">
+			<div class="profile-head">
+				<div class="picture">
+					<img src="/img/logoSmall.webp" />
+				</div>
+				<div class="basic">
+					<div class="name"><%= targetUser.username %></div>
+					<div class="creation-date">Member since <%= targetUser.dateCreated %></div>
+				</div>
+				<div class="options">
+					<% if (requestingUser && requestingUser.id == targetUser.id) { %>
+					<a href="/account/<%= targetUser.id %>/edit"><span>Edit Profile</span></a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,8 @@
+<form class="setting setting-text" method="post" action="/api/v1/user/<%= settingName %>">
+	<div class="label"><%= settingName %></div>
+	<div class="value">
+		<input class="hidden" type="text" name="id" value="<%= targetUser.id %>" />
+		<input type="text" name="<%= settingName %>" value="<%= value %>" />
+		<button><span>✓</span></button>
+	</div>
+</form>
