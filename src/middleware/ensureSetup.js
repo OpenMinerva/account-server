@@ -6,8 +6,7 @@ let isSetup;
 
 async function checkSetup() {
 	if (isSetup !== undefined) return isSetup;
-
-	isSetup = (await userService.get({ role: "admin" }).length) > 0;
+	isSetup = (await userService.get({ role: "admin" })).length > 0;
 	return isSetup;
 }
 

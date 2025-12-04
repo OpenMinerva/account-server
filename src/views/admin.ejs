@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>PrismLens | Admin</title>
+		<%- include('partials/head') %>
+		<link rel="stylesheet" type="text/css" href="/css/setting.css" />
+		<link href="/css/datatables.min.css" rel="stylesheet" />
+		<script src="/js/datatables.min.js"></script>
+	</head>
+
+	<body>
+		<%- include('partials/navbar') %>
+
+		<div class="page-content">
+			<div class="table-responsive">
+				<table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+					<thead>
+						<tr class="fw-semibold fs-6 text-muted">
+							<th>Username</th>
+							<th>Creation Date</th>
+							<th>Role</th>
+							<th>Account Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for( let index = 0; allUsers.length > index; index++ ) { %>
+						<tr>
+							<td><%= allUsers[index].username %></td>
+							<td><%= allUsers[index].dateCreated %></td>
+							<td><%= allUsers[index].role %></td>
+							<td>Not implemented</td>
+						</tr>
+						<% } %>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>Username</th>
+							<th>Creation Date</th>
+							<th>Role</th>
+							<th>Account Status</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</body>
+	<script src="/js/admin.js"></script>
+</html>

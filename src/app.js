@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const indexRoutes = require("./routes/index");
 const createRoutes = require("./routes/create");
 const accountRoutes = require("./routes/account");
+const adminRoutes = require("./routes/admin");
 const apiRoutes = require("./routes/api");
 const errorHandler = require("./middleware/errorHandler");
 const ensureSetup = require("./middleware/ensureSetup");
@@ -29,6 +30,7 @@ app.use(ensureSetup.ensureSetup);
 // Routes
 app.use("/signup", createRoutes);
 app.use("/account", accountRoutes);
+app.use("/admin", adminRoutes);
 app.use("/", indexRoutes);
 
 // 404 & error middleware
