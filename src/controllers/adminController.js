@@ -3,6 +3,10 @@ const timeService = require("../services/timeService");
 
 const getIndex = async (req, res, next) => {
 	try {
+		if (req.requestingUser.role != "admin") {
+			return res.redirect(`/`);
+		}
+
 		// User list
 		const users = await userService.get();
 
