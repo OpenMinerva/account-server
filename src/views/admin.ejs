@@ -78,5 +78,23 @@
 		</form>
 	</dialog>
 
+	<dialog id="role">
+		<form method="post" action="/api/v1/user/role">
+			<div class="dialog-title">Change role of user <br />'<span id="dialog-role-target"></span>'</div>
+			<input name="id" class="hidden" id="dialog-role-target-id" />
+			<div class="dialog-entry">
+				<select name="role">
+					<option value="user">User</option>
+					<option value="moderator">Moderator</option>
+					<option value="admin">Admin</option>
+				</select>
+			</div>
+			<div class="horizontal-button">
+				<button type="button"><span>Abort</span></button>
+				<button type="submit"><span>Confirm</span></button>
+			</div>
+		</form>
+	</dialog>
+
 	<script src="/js/admin.js"></script>
 </html>

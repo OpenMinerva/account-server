@@ -1,10 +1,3 @@
-// new DataTable("#user-list", {
-// 	info: false,
-// 	ordering: false,
-// 	paging: true,
-// 	pageLength: 2,
-// });
-
 $("#kt_datatable_zero_configuration").DataTable({
 	columnDefs: [
 		{
@@ -21,7 +14,7 @@ $("#kt_datatable_zero_configuration").DataTable({
 			targets: 2,
 			width: "10%",
 			render: function (data, type, row) {
-				return "<button onclick='openDialog(`role`)'><span>" + data + "</span></button>";
+				return "<button onclick='openDialog(`role`, `" + JSON.stringify(row) + "`)'><span>" + data + "</span></button>";
 			},
 		},
 		{
@@ -38,7 +31,6 @@ $("#kt_datatable_zero_configuration").DataTable({
 		},
 		{
 			target: 5,
-			// visible: false,
 			searchable: true,
 		},
 	],
@@ -53,6 +45,14 @@ function openDialog(type = "", row) {
 		return;
 	}
 	if (type == "role") {
+		document.querySelector("#dialog-role-target").innerText = row[0];
+		document.querySelector("#dialog-role-target-id").value = row[5];
+		// Find the current role of the user, and select that in the drop down
+		const roleString = row[2];
+		const targetElement = document.querySelector(`#role select [value='${roleString}']`) || document.querySelector(`#role select [value=user]`);
+		targetElement.selected = true;
+
+		document.querySelector("#role").showModal();
 		return;
 	}
 	if (type == "password") {

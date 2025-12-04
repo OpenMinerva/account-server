@@ -97,6 +97,32 @@ const updatePassword = async (req, res, next) => {
 	}
 };
 
+const updateRole = async (req, res, next) => {
+	// Validate request.
+	if (req.requestingUser.role != "admin") {
+		// Only admins are allowed to change roles.
+		if (req.accepts("html")) {
+			return res.redirect(`/account/${req.body.id}`);
+		} else {
+			return res.json({ ok: false });
+		}
+	}
+
+	logger.info(`Updating role for '${req.body.id}'.`, {
+		...LOGGER_LABEL,
+		function: "create",
+	});
+
+	// TODO: Validate that the role is a valid role.
+	await userService.updateRole(req.body.id, req.body.role);
+
+	if (req.accepts("html")) {
+		return res.sendStatus(204);
+	} else {
+		return res.json({ ok: true });
+	}
+};
+
 function passwordConfirmationMatches(data) {
 	if (!data.password) {
 		return false;
@@ -117,4 +143,4 @@ function passwordConfirmationMatches(data) {
 	return false;
 }
 
-module.exports = { create, updateUsername, updatePassword };
+module.exports = { create, updateUsername, updatePassword, updateRole };

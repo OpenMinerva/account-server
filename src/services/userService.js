@@ -19,5 +19,9 @@ async function updatePassword(id, password) {
 	logger.info(`Updating password of '${id}'.`, { ...LOGGER_LABEL, function: "updatePassword" });
 	await db.updateUserPassword(id, password);
 }
+async function updateRole(id, role = "") {
+	logger.info(`Updating role of '${id}'.`, { ...LOGGER_LABEL, function: "updateRole" });
+	await db.updateUserRole(id, role);
+}
 
-module.exports = { get, create, updateUsername, updatePassword };
+module.exports = { get, create, updateUsername, updatePassword, updateRole };
