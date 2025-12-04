@@ -1,0 +1,22 @@
+.table-responsive {
+	table {
+		tbody {
+			tr {
+				button {
+					width: 100%;
+					height: 100%;
+					padding: 0.3rem 0;
+					box-sizing: border-box;
+					background-color: rgba(0, 0, 0, 0.1);
+				}
+
+				button.left-align {
+					span {
+						margin: auto auto auto 0;
+					}
+				}
+			}
+		}
+	}
+
+}
