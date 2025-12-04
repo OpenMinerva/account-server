@@ -62,3 +62,9 @@ function openDialog(type = "", row) {
 		return;
 	}
 }
+
+function closeDialog() {
+	document.querySelector("#username").close();
+	document.querySelector("#role").close();
+	document.querySelector("#password").close();
+}
