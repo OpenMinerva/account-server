@@ -76,6 +76,20 @@ async function insertUser({ username, password, role } = {}) {
 	}
 }
 
+async function deleteUser(id) {
+	try {
+		return await db.delete(users).where(eq(users.id, id));
+	} catch (e) {
+		const msg = e instanceof Error ? e.stack : String(e);
+		logger.error(`Unknown error trying to delete a user.`, {
+			...LOGGER_LABEL,
+			error: msg,
+			function: "deleteUser",
+		});
+		return { error: "Unknown error", e };
+	}
+}
+
 async function updateUserUsername(id, username) {
 	try {
 		const userResponse = await db.update(users).set({ username }).where(eq(users.id, id)).returning();
@@ -121,4 +135,4 @@ async function updateUserRole(id, role) {
 	}
 }
 
-module.exports = { getUser, insertUser, hashPassword, updateUserUsername, updateUserPassword, updateUserRole };
+module.exports = { getUser, insertUser, hashPassword, updateUserUsername, updateUserPassword, updateUserRole, deleteUser };

@@ -21,7 +21,7 @@
 							<th>Username</th>
 							<th>Creation Date</th>
 							<th>Role</th>
-							<th>Account Status</th>
+							<th>Delete Account</th>
 							<th>Password</th>
 							<td>ID</td>
 						</tr>
@@ -43,7 +43,7 @@
 							<th>Username</th>
 							<th>Creation Date</th>
 							<th>Role</th>
-							<th>Account Status</th>
+							<th>Delete Account</th>
 							<th>Password</th>
 							<td>ID</td>
 						</tr>
@@ -89,6 +89,18 @@
 					<option value="admin">Admin</option>
 				</select>
 			</div>
+			<div class="horizontal-button">
+				<button type="button" onclick="closeDialog()"><span>Abort</span></button>
+				<button type="submit"><span>Confirm</span></button>
+			</div>
+		</form>
+	</dialog>
+
+	<dialog id="delete">
+		<form method="post" action="/api/v1/user/delete">
+			<div class="dialog-title">Delete user <br />'<span id="dialog-delete-target"></span>'?</div>
+			<input name="id" class="hidden" id="dialog-delete-target-id" />
+			<div class="dialog-entry"></div>
 			<div class="horizontal-button">
 				<button type="button" onclick="closeDialog()"><span>Abort</span></button>
 				<button type="submit"><span>Confirm</span></button>

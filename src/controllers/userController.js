@@ -54,7 +54,7 @@ const updateUsername = async (req, res, next) => {
 
 	logger.info(`Updating username for '${req.body.id}'.`, {
 		...LOGGER_LABEL,
-		function: "create",
+		function: "updateUsername",
 	});
 	await userService.updateUsername(req.body.id, req.body.Username);
 
@@ -77,7 +77,7 @@ const updatePassword = async (req, res, next) => {
 
 	logger.info(`Updating password for '${req.body.id}'.`, {
 		...LOGGER_LABEL,
-		function: "create",
+		function: "updatePassword",
 	});
 
 	if (!passwordConfirmationMatches({ password: req.body.password, passwordConfirm: req.body.passwordConfirm })) {
@@ -110,11 +110,35 @@ const updateRole = async (req, res, next) => {
 
 	logger.info(`Updating role for '${req.body.id}'.`, {
 		...LOGGER_LABEL,
-		function: "create",
+		function: "updateRole",
 	});
 
 	// TODO: Validate that the role is a valid role.
 	await userService.updateRole(req.body.id, req.body.role);
+
+	if (req.accepts("html")) {
+		return res.sendStatus(204);
+	} else {
+		return res.json({ ok: true });
+	}
+};
+const deleteUser = async (req, res, next) => {
+	// Validate request
+	if (req.requestingUser.id != req.body.id && req.requestingUser.role != "moderator" && req.requestingUser.role != "admin") {
+		if (req.accepts("html")) {
+			return res.redirect(`/account/${req.body.id}`);
+		} else {
+			return res.json({ ok: false });
+		}
+	}
+
+	logger.info(`Deleting user '${req.body.id}'.`, {
+		...LOGGER_LABEL,
+		function: "deleteUser",
+	});
+
+	// TODO: Validate that the role is a valid role.
+	await userService.deleteUser(req.body.id);
 
 	if (req.accepts("html")) {
 		return res.sendStatus(204);
@@ -143,4 +167,4 @@ function passwordConfirmationMatches(data) {
 	return false;
 }
 
-module.exports = { create, updateUsername, updatePassword, updateRole };
+module.exports = { create, updateUsername, updatePassword, updateRole, deleteUser };

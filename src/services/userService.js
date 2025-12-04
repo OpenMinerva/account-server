@@ -10,6 +10,11 @@ async function create(data) {
 	return userId;
 }
 
+async function deleteUser(id) {
+	logger.info(`Deleting user '${id}'.`, { ...LOGGER_LABEL, function: "deleteUser" });
+	await db.deleteUser(id);
+}
+
 async function updateUsername(id, username) {
 	logger.info(`Updating username of '${id}'.`, { ...LOGGER_LABEL, function: "updateUsername" });
 	await db.updateUserUsername(id, username);
@@ -24,4 +29,4 @@ async function updateRole(id, role = "") {
 	await db.updateUserRole(id, role);
 }
 
-module.exports = { get, create, updateUsername, updatePassword, updateRole };
+module.exports = { get, create, deleteUser, updateUsername, updatePassword, updateRole };

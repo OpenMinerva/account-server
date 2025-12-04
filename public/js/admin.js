@@ -19,7 +19,10 @@ $("#kt_datatable_zero_configuration").DataTable({
 		},
 		{
 			targets: 3,
-			width: "20%",
+			width: "10%",
+			render: function (data, type, row) {
+				return "<button onclick='openDialog(`delete`, `" + JSON.stringify(row) + "`)'><span>Delete</span></button>";
+			},
 		},
 		{
 			data: null,
@@ -61,10 +64,17 @@ function openDialog(type = "", row) {
 		document.querySelector("#password").showModal();
 		return;
 	}
+	if (type == "delete") {
+		document.querySelector("#dialog-delete-target").innerText = row[0];
+		document.querySelector("#dialog-delete-target-id").value = row[5];
+		document.querySelector("#delete").showModal();
+		return;
+	}
 }
 
 function closeDialog() {
 	document.querySelector("#username").close();
 	document.querySelector("#role").close();
+	document.querySelector("#delete").close();
 	document.querySelector("#password").close();
 }
