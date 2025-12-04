@@ -8,7 +8,7 @@ const users = sqliteTable("users", {
 		.$defaultFn(() => randomUUID()),
 	username: text("username").notNull(),
 	password: text("password"),
-	role: text("role", { enum: ["user", "moderator", "admin"] }).default("visitor"),
+	role: text("role", { enum: ["user", "moderator", "admin"] }).default("user"),
 	dateCreated: integer("dateCreated", { mode: "timestamp_ms" }).default(sql`(unixepoch() * 1000)`),
 	dateDeleted: integer("dateDeleted", { mode: "timestamp_ms" }),
 	deleteRequested: integer("deleteRequested", { mode: "boolean" }).default(false),

@@ -12,7 +12,7 @@ async function hashPassword(plainPassword, hashRounds = 12) {
 	return await bcrypt.hash(plainPassword, hashRounds);
 }
 
-async function getUser({ id, username, includePassword = false } = {}) {
+async function getUser({ id, username, includePassword = false, role } = {}) {
 	let selectQuery = {
 		id: users.id,
 		role: users.role,
@@ -31,6 +31,14 @@ async function getUser({ id, username, includePassword = false } = {}) {
 
 	if (username) {
 		const user = (await db.select(selectQuery).from(users).where(eq(users.username, username)))[0];
+		return user;
+	}
+
+	// TODO: Separate this into different function?
+	// This is expected to return an array, while the other routes return a single user.
+	// This is the same from the catch-all below.
+	if (role) {
+		const user = await db.select(selectQuery).from(users).where(eq(users.role, role));
 		return user;
 	}
 

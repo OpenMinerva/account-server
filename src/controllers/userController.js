@@ -1,11 +1,18 @@
 const userService = require("../services/userService");
 const logger = require("../libs/logger");
 const LOGGER_LABEL = { file: "userController.js" };
+const ensureSetup = require("../middleware/ensureSetup");
 
 const create = async (req, res, next) => {
 	try {
 		let data = req.body;
+
 		data.role = "user";
+
+		if (!(await ensureSetup.checkSetup())) {
+			// First account is an admin.
+			data.role = "admin";
+		}
 
 		// TODO: Disable signups
 
@@ -16,9 +23,8 @@ const create = async (req, res, next) => {
 
 		if (!passwordConfirmationMatches(data)) return false;
 
-		// TODO: Admin account
-
 		await userService.create({ ...data });
+		ensureSetup.changeSetupState(true);
 
 		if (req.accepts("html")) {
 			res.redirect("/");

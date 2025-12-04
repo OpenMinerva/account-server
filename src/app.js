@@ -9,6 +9,7 @@ const createRoutes = require("./routes/create");
 const accountRoutes = require("./routes/account");
 const apiRoutes = require("./routes/api");
 const errorHandler = require("./middleware/errorHandler");
+const ensureSetup = require("./middleware/ensureSetup");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/api", apiRoutes);
+app.use(ensureSetup.ensureSetup);
 
 // Routes
 app.use("/signup", createRoutes);
