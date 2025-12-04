@@ -67,7 +67,7 @@ const updateUsername = async (req, res, next) => {
 
 const updatePassword = async (req, res, next) => {
 	// Validate request
-	if (req.requestingUser.id != req.body.id) {
+	if (req.requestingUser.id != req.body.id && req.requestingUser.role != "admin") {
 		if (req.accepts("html")) {
 			return res.redirect(`/account/${req.body.id}`);
 		} else {
@@ -91,7 +91,7 @@ const updatePassword = async (req, res, next) => {
 	await userService.updatePassword(req.body.id, req.body.password);
 
 	if (req.accepts("html")) {
-		return res.redirect(`/account/${req.body.id}/edit`);
+		return res.sendStatus(204);
 	} else {
 		return res.json({ ok: true });
 	}

@@ -65,5 +65,18 @@
 		</form>
 	</dialog>
 
+	<dialog id="password">
+		<form method="post" action="/api/v1/user/password">
+			<div class="dialog-title">Change password of user <br />'<span id="dialog-password-target"></span>'</div>
+			<input name="id" class="hidden" id="dialog-password-target-id" />
+			<div class="dialog-entry"><input name="password" type="password" placeholder="New password" /></div>
+			<div class="dialog-entry"><input name="passwordConfirm" type="password" placeholder="Confirm password" /></div>
+			<div class="horizontal-button">
+				<button type="button"><span>Abort</span></button>
+				<button type="submit"><span>Confirm</span></button>
+			</div>
+		</form>
+	</dialog>
+
 	<script src="/js/admin.js"></script>
 </html>

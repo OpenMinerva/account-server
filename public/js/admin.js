@@ -31,7 +31,9 @@ $("#kt_datatable_zero_configuration").DataTable({
 		{
 			data: null,
 			width: "10%",
-			defaultContent: "<button onclick='openDialog(`password`)' ><span>Change</span></button>",
+			render: function (data, type, row) {
+				return "<button onclick='openDialog(`password`, `" + JSON.stringify(row) + "`)'><span>Change</span></button>";
+			},
 			targets: 4,
 		},
 		{
@@ -54,6 +56,9 @@ function openDialog(type = "", row) {
 		return;
 	}
 	if (type == "password") {
+		document.querySelector("#dialog-password-target").innerText = row[0];
+		document.querySelector("#dialog-password-target-id").value = row[5];
+		document.querySelector("#password").showModal();
 		return;
 	}
 }
