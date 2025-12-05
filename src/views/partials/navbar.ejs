@@ -6,7 +6,9 @@
 		</a>
 	</div>
 	<div class="nav">
-		<% if (requestingUser) { %>
+		<% if (requestingUser.role == "admin") { %>
+		<a href="/admin"><span>Admin</span></a>
+		<% } %> <% if (requestingUser) { %>
 		<a href="/api/logout"><span>Logout</span></a>
 		<% } %>
 	</div>
