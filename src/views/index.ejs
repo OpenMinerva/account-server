@@ -4,26 +4,12 @@
 		<meta charset="UTF-8" />
 		<title>PrismLens | Account Server</title>
 		<%- include('partials/head') %>
+		<link rel="stylesheet" type="text/css" href="/css/index.css" />
 	</head>
 
 	<body>
-		<form class="login-container" method="post" action="/api/v1/authenticate">
-			<div class="logo">
-				<img src="/img/logoSmall.webp" alt="PrismLens Logo" />
-				<div>PrismLens</div>
-			</div>
-			<div class="text-entry">
-				<div class="title">Username</div>
-				<input name="username" type="text" placeholder="Enter your username" />
-			</div>
-			<div class="text-entry">
-				<div class="title">Password</div>
-				<input name="password" type="password" placeholder="Enter your password" />
-			</div>
-			<div class="button-container">
-				<button type="submit">Login</button>
-				<button type="button" onclick="window.location.href='/signup'">Sign Up</button>
-			</div>
-		</form>
+		<%- include('partials/navbar') %>
+
+		<div class="page-content"></div>
 	</body>
 </html>

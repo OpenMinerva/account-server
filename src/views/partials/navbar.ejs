@@ -6,10 +6,18 @@
 		</a>
 	</div>
 	<div class="nav">
+		<% if (requestingUser) { %>
+		<!--  -->
 		<% if (requestingUser.role == "admin") { %>
 		<a href="/admin"><span>Admin</span></a>
-		<% } %> <% if (requestingUser) { %>
+		<% } %>
+		<!--  -->
+		<% if (requestingUser) { %>
 		<a href="/api/logout"><span>Logout</span></a>
 		<% } %>
+		<!--  -->
+		<% } else { %>
+		<a href="/login"><span>Login</span></a>
+		<%}%>
 	</div>
 </div>
