@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
 
 const indexRoutes = require("./routes/index");
+const loginRoutes = require("./routes/login");
 const createRoutes = require("./routes/create");
 const accountRoutes = require("./routes/account");
 const adminRoutes = require("./routes/admin");
@@ -28,6 +29,7 @@ app.use("/api", apiRoutes);
 app.use(ensureSetup.ensureSetup);
 
 // Routes
+app.use("/login", loginRoutes);
 app.use("/signup", createRoutes);
 app.use("/account", accountRoutes);
 app.use("/admin", adminRoutes);
