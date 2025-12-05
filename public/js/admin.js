@@ -1,4 +1,5 @@
 $("#kt_datatable_zero_configuration").DataTable({
+	scrollX: true,
 	columnDefs: [
 		{
 			targets: 0,
