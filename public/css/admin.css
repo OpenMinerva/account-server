@@ -11,7 +11,7 @@ body .page-content .table-responsive table tbody tr button {
 body .page-content .table-responsive table tbody tr button.left-align span {
   margin: auto auto auto 0;
 }
-body .page-content dialog form div select {
+body dialog form .dialog-entry select {
   width: 100%;
   height: 26px;
 }

@@ -34,6 +34,7 @@ $("#kt_datatable_zero_configuration").DataTable({
 			targets: 4,
 		},
 		{
+			width: "20%",
 			target: 5,
 			searchable: true,
 		},

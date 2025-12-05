@@ -25,13 +25,15 @@ body {
 
 		}
 
-		dialog {
-			form {
-				div {
-					select {
-						width: 100%;
-						height: 26px;
-					}
+
+	}
+
+	dialog {
+		form {
+			.dialog-entry {
+				select {
+					width: 100%;
+					height: 26px;
 				}
 			}
 		}
