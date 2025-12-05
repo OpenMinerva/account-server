@@ -7,9 +7,13 @@ const users = sqliteTable("users", {
 		.primaryKey()
 		.$defaultFn(() => randomUUID()),
 	username: text("username").notNull(),
-	password: text("password"),
-	role: text("role", { enum: ["user", "moderator", "admin"] }).default("visitor"),
-	dateCreated: integer("dateCreated", { mode: "timestamp_ms" }).default(sql`(unixepoch() * 1000)`),
+	password: text("password").notNull(),
+	role: text("role", { enum: ["user", "moderator", "admin"] })
+		.default("user")
+		.notNull(),
+	dateCreated: integer("dateCreated", { mode: "timestamp_ms" })
+		.default(sql`(unixepoch() * 1000)`)
+		.notNull(),
 	dateDeleted: integer("dateDeleted", { mode: "timestamp_ms" }),
 	deleteRequested: integer("deleteRequested", { mode: "boolean" }).default(false),
 });

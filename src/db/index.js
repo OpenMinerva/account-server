@@ -12,7 +12,7 @@ async function hashPassword(plainPassword, hashRounds = 12) {
 	return await bcrypt.hash(plainPassword, hashRounds);
 }
 
-async function getUser({ id, username, includePassword = false } = {}) {
+async function getUser({ id, username, includePassword = false, role } = {}) {
 	let selectQuery = {
 		id: users.id,
 		role: users.role,
@@ -31,6 +31,14 @@ async function getUser({ id, username, includePassword = false } = {}) {
 
 	if (username) {
 		const user = (await db.select(selectQuery).from(users).where(eq(users.username, username)))[0];
+		return user;
+	}
+
+	// TODO: Separate this into different function?
+	// This is expected to return an array, while the other routes return a single user.
+	// This is the same from the catch-all below.
+	if (role) {
+		const user = await db.select(selectQuery).from(users).where(eq(users.role, role));
 		return user;
 	}
 
@@ -68,6 +76,20 @@ async function insertUser({ username, password, role } = {}) {
 	}
 }
 
+async function deleteUser(id) {
+	try {
+		return await db.delete(users).where(eq(users.id, id));
+	} catch (e) {
+		const msg = e instanceof Error ? e.stack : String(e);
+		logger.error(`Unknown error trying to delete a user.`, {
+			...LOGGER_LABEL,
+			error: msg,
+			function: "deleteUser",
+		});
+		return { error: "Unknown error", e };
+	}
+}
+
 async function updateUserUsername(id, username) {
 	try {
 		const userResponse = await db.update(users).set({ username }).where(eq(users.id, id)).returning();
@@ -98,5 +120,19 @@ async function updateUserPassword(id, password) {
 		return { error: "Unknown error", e };
 	}
 }
+async function updateUserRole(id, role) {
+	try {
+		const userResponse = await db.update(users).set({ role }).where(eq(users.id, id)).returning();
+		return userResponse[0];
+	} catch (e) {
+		const msg = e instanceof Error ? e.stack : String(e);
+		logger.error(`Unknown error trying to update a user role.`, {
+			...LOGGER_LABEL,
+			error: msg,
+			function: "updateUserRole",
+		});
+		return { error: "Unknown error", e };
+	}
+}
 
-module.exports = { getUser, insertUser, hashPassword, updateUserUsername, updateUserPassword };
+module.exports = { getUser, insertUser, hashPassword, updateUserUsername, updateUserPassword, updateUserRole, deleteUser };
