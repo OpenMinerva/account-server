@@ -59,7 +59,14 @@ async function authLogin(req, res, next) {
 			return
 		}
 
-		const jwtToken = await crypto.webJWT(response.response);
+		let jwtToken = null;
+
+		if (req.body.scope == "webAuth") {
+			jwtToken = await crypto.createJWT(response.response, "webAuth");
+		}
+		else if (req.body.scope == "appAuth") {
+			jwtToken = await crypto.createJWT(response.response, "appAuth");
+		}
 
 		if (jwtToken.ok == false) {
 			logger.error("Unknown error creating a JWT.", jwtToken.message);

@@ -21,7 +21,7 @@ async function comparePassword(password, passwordHash) {
     }
 }
 
-async function webJWT(accountData) {
+async function createJWT(accountData, scope = "webAuth") {
     if (!accountData.id) {
         return { ok: false, message: "No ID specified." }
     }
@@ -36,7 +36,7 @@ async function webJWT(accountData) {
         id: accountData.id,
         username: accountData.username,
         role: accountData.role,
-        scope: "webAuth",
+        scope: scope,
         issuer: "http://localhost:40400"
     }
 
@@ -45,7 +45,7 @@ async function webJWT(accountData) {
     return { ok: true, response: token }
 }
 
-async function verifyWebJWT(token) {
+async function verifyJWT(token) {
     try {
         const verification = await jwt.verify(token, privateKey);
 
@@ -103,4 +103,4 @@ function getPubKey() {
 publicKey = fs.readFileSync("./data/keys/public.pem") || null
 privateKey = fs.readFileSync("./data/keys/private.pem") || null
 
-module.exports = { hashPassword, comparePassword, webJWT, verifyWebJWT, getPrivKey, getPubKey }
+module.exports = { hashPassword, comparePassword, createJWT, verifyJWT, getPrivKey, getPubKey }
