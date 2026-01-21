@@ -1,15 +1,17 @@
-const jwt = require("jsonwebtoken");
-const authController = require("../controllers/authController");
+const crypto = require("../services/crypto.js");
 
-module.exports = function auth(req, res, next) {
-	const token = req.cookies?.token || req.headers["authorization"]?.split(" ")[1];
-	if (!token) return next();
+module.exports = async function auth(req, res, next) {
+    const token = req.cookies?.token || req.headers["authorization"]?.split(" ")[1];
+    if (!token) return next();
 
-	try {
-		const decoded = jwt.verify(token, authController.jwtToken());
-		req.requestingUser = decoded;
-		next();
-	} catch {
-		next();
-	}
+    try {
+        const decoded = await crypto.verifyWebJWT(token);
+
+        if (decoded.ok == true) {
+            req.requestingUser = decoded.response;
+            next();
+        }
+    } catch {
+        next();
+    }
 };

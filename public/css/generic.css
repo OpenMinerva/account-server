@@ -5,6 +5,7 @@ body {
   background-color: #2e3132;
   height: 100vh;
   width: 100vw;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 body .login-container {
   background-color: #4b4f53;
@@ -35,7 +36,6 @@ body .login-container .logo div {
   font-size: 2rem;
 }
 body .text-entry {
-  /* background-color: colors.$bg-1; */
   width: 100%;
   padding: 0.25rem;
   box-sizing: border-box;
@@ -102,6 +102,7 @@ body .navbar .logo a img {
 body .navbar .logo a span {
   margin: auto auto auto 1rem;
   font-size: 2rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 body .navbar .nav {
   margin: auto 0 auto auto;

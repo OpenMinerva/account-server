@@ -4,14 +4,15 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
 
+// Routes
 const indexRoutes = require("./routes/index");
-const loginRoutes = require("./routes/login");
-const createRoutes = require("./routes/create");
-const accountRoutes = require("./routes/account");
-const adminRoutes = require("./routes/admin");
+// const accountRoutes = require("./routes/account");
+// const adminRoutes = require("./routes/admin");
 const apiRoutes = require("./routes/api");
+
+// Middleware
 const errorHandler = require("./middleware/errorHandler");
-const ensureSetup = require("./middleware/ensureSetup");
+const ensureSetup = require("./services/setup");
 
 const app = express();
 
@@ -25,17 +26,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api", apiRoutes);
-app.use(ensureSetup.ensureSetup);
 
 // Routes
-app.use("/login", loginRoutes);
-app.use("/signup", createRoutes);
-app.use("/account", accountRoutes);
-app.use("/admin", adminRoutes);
+app.use("/api", apiRoutes);         // API is required to make an account. If this is after ensuring the setup we would be caught in a loop!
+app.use(ensureSetup.middleware);
+// app.use("/account", accountRoutes);
+// app.use("/admin", adminRoutes);
 app.use("/", indexRoutes);
 
-// 404 & error middleware
-app.use(errorHandler);
+app.use(errorHandler); // Everything else in an error.
 
 module.exports = app;

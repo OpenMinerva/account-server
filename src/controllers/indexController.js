@@ -1,9 +1,0 @@
-const getIndex = async (req, res, next) => {
-	try {
-		res.render("index", { requestingUser: req.requestingUser });
-	} catch (err) {
-		next(err);
-	}
-};
-
-module.exports = { getIndex };

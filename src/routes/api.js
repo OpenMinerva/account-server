@@ -3,17 +3,21 @@ const router = express.Router();
 const isAuth = require("../middleware/isAuth");
 const requireAuth = require("../middleware/requireAuth");
 
-const userController = require("../controllers/userController");
-const authController = require("../controllers/authController");
+const apiController = require('../controllers/api')
 
-router.get("/logout", isAuth, authController.remove);
+// Accounts
+router.get("/v1/account", isAuth, apiController.getAccount);
+router.post("/v1/account", isAuth, apiController.createAccount);
+router.patch("/v1/account", isAuth, apiController.patchAccount);
+router.delete("/v1/account", isAuth, apiController.deleteAccount);
 
-router.post("/v1/authenticate", authController.post);
-router.post("/v1/createUser", userController.create);
+// Devices
+router.get("/v1/device", requireAuth, apiController.getDevice);
+router.post("/v1/device", requireAuth, apiController.createDevice);
+router.delete("/v1/device", requireAuth, apiController.deleteDevice);
 
-router.post("/v1/user/username", requireAuth, userController.updateUsername);
-router.post("/v1/user/password", requireAuth, userController.updatePassword);
-router.post("/v1/user/role", requireAuth, userController.updateRole);
-router.post("/v1/user/delete", requireAuth, userController.deleteUser);
+// Authentication
+router.post("/v1/device/auth", apiController.authDevice);
+router.post("/v1/login", apiController.authLogin);
 
-module.exports = router;
+module.exports = router

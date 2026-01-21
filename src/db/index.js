@@ -1,138 +1,92 @@
 const { db } = require("./db");
-const { posts, users } = require("./schema");
+const { accounts, devices } = require("./schema");
 const { eq } = require("drizzle-orm");
-const bcrypt = require("bcrypt");
-const logger = require("../libs/logger");
-const LOGGER_LABEL = { file: "db/index.js" };
-const fs = require("fs");
-const path = require("path");
-const sharp = require("sharp");
+const crypto = require("../services/crypto");
+const logger = require("../services/logger");
+const ensureSetup = require("../services/setup");
 
-async function hashPassword(plainPassword, hashRounds = 12) {
-	return await bcrypt.hash(plainPassword, hashRounds);
-}
-
-async function getUser({ id, username, includePassword = false, role } = {}) {
+async function getAccount({ id, username, role } = {}, { includePassword = false } = {}) {
 	let selectQuery = {
-		id: users.id,
-		role: users.role,
-		dateCreated: users.dateCreated,
-		username: users.username,
+		id: accounts.id,
+		role: accounts.role,
+		dateCreated: accounts.dateCreated,
+		username: accounts.username,
 	};
 
 	if (includePassword) {
-		selectQuery.password = users.password;
+		selectQuery.password = accounts.password;
 	}
 
+	// Unique constrained searches. Only return a single entry as a standalone object
 	if (id) {
-		const user = (await db.select(selectQuery).from(users).where(eq(users.id, id)))[0];
-		return user;
+		const acc = (await db.select(selectQuery).from(accounts).where(eq(accounts.id, id)))[0];
+		return acc;
 	}
 
 	if (username) {
-		const user = (await db.select(selectQuery).from(users).where(eq(users.username, username)))[0];
-		return user;
+		const acc = (await db.select(selectQuery).from(accounts).where(eq(accounts.username, username)))[0];
+		return acc;
 	}
 
-	// TODO: Separate this into different function?
-	// This is expected to return an array, while the other routes return a single user.
-	// This is the same from the catch-all below.
 	if (role) {
-		const user = await db.select(selectQuery).from(users).where(eq(users.role, role));
-		return user;
+		const acc = await db.select(selectQuery).from(accounts).where(eq(accounts.role, role));
+		return acc;
 	}
 
-	return await db.select(selectQuery).from(users);
+	return await db.select(selectQuery).from(accounts)
 }
-
-async function insertUser({ username, password, role } = {}) {
-	if (!username) {
-		logger.warn(`Tried to make a user without a username`, {
-			...LOGGER_LABEL,
-			function: "insertUser",
-		});
-		return { error: "No username." };
-	}
-	if (!password) {
-		logger.warn(`Tried to make a user without a password`, {
-			...LOGGER_LABEL,
-			function: "insertUser",
-		});
-		return { error: "No password." };
-	}
-
+async function createAccount({ username, password, role } = {}) {
 	try {
-		password = await hashPassword(password);
-		const userResponse = await db.insert(users).values({ username, password, role }).returning();
-		return userResponse[0];
+		if (!username) {
+			logger.warn("Tried to make a account without a username.");
+			return { ok: false, message: "No username." }
+		}
+		if (!password) {
+			logger.warn("Tried to make a account without a password.");
+			return { ok: false, message: "No password." }
+		}
+
+		const existingAccount = await getAccount({ username });
+
+		if (existingAccount) {
+			return { ok: false, message: "Username is already in use." }
+		}
+
+		password = await crypto.hashPassword(password);
+
+		if (await ensureSetup.check() == false) {
+			logger.info(`Server is not set up, making ${username} an admin.`);
+			role = "admin";
+
+		}
+
+		const accountDatabaseResponse = await db.insert(accounts).values({ username, password, role }).returning()
+		ensureSetup.setState(true)
+		return { ok: true, response: accountDatabaseResponse[0] };
+	}
+	catch (e) {
+		logger.error("Unknown error trying to make a account.", e);
+		return { ok: false, message: "Unknown error." }
+	}
+}
+async function updateAccount({ } = {}) { }
+async function deleteAccount({ } = {}) { }
+
+async function getDevice({ } = {}) { }
+async function createDevice({ } = {}) { }
+async function deleteDevice({ } = {}) { }
+
+async function authDevice({ } = {}) { }
+async function authLogin({ username, password } = {}) {
+	try {
+		const targetAccount = getAccount({ username });
+
+		if (!targetAccount) {
+
+		}
 	} catch (e) {
-		const msg = e instanceof Error ? e.stack : String(e);
-		logger.error(`Unknown error trying to make a user.`, {
-			...LOGGER_LABEL,
-			error: msg,
-			function: "insertUser",
-		});
-		return { error: "Unknown error", e };
+
 	}
 }
 
-async function deleteUser(id) {
-	try {
-		return await db.delete(users).where(eq(users.id, id));
-	} catch (e) {
-		const msg = e instanceof Error ? e.stack : String(e);
-		logger.error(`Unknown error trying to delete a user.`, {
-			...LOGGER_LABEL,
-			error: msg,
-			function: "deleteUser",
-		});
-		return { error: "Unknown error", e };
-	}
-}
-
-async function updateUserUsername(id, username) {
-	try {
-		const userResponse = await db.update(users).set({ username }).where(eq(users.id, id)).returning();
-		return userResponse[0];
-	} catch (e) {
-		const msg = e instanceof Error ? e.stack : String(e);
-		logger.error(`Unknown error trying to update a user username.`, {
-			...LOGGER_LABEL,
-			error: msg,
-			function: "updateUserUsername",
-		});
-		return { error: "Unknown error", e };
-	}
-}
-
-async function updateUserPassword(id, password) {
-	try {
-		const hashedPassword = await hashPassword(password);
-		const userResponse = await db.update(users).set({ password: hashedPassword }).where(eq(users.id, id)).returning();
-		return userResponse[0];
-	} catch (e) {
-		const msg = e instanceof Error ? e.stack : String(e);
-		logger.error(`Unknown error trying to update a user password.`, {
-			...LOGGER_LABEL,
-			error: msg,
-			function: "updateUserPassword",
-		});
-		return { error: "Unknown error", e };
-	}
-}
-async function updateUserRole(id, role) {
-	try {
-		const userResponse = await db.update(users).set({ role }).where(eq(users.id, id)).returning();
-		return userResponse[0];
-	} catch (e) {
-		const msg = e instanceof Error ? e.stack : String(e);
-		logger.error(`Unknown error trying to update a user role.`, {
-			...LOGGER_LABEL,
-			error: msg,
-			function: "updateUserRole",
-		});
-		return { error: "Unknown error", e };
-	}
-}
-
-module.exports = { getUser, insertUser, hashPassword, updateUserUsername, updateUserPassword, updateUserRole, deleteUser };
+module.exports = { getAccount, createAccount, authLogin }

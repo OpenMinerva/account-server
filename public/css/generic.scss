@@ -1,224 +1,225 @@
 @use "colors";
 
 body {
-	display: flex;
-	flex-direction: column;
-	margin: 0;
-	background-color: colors.$bg-1;
-	height: 100vh;
-	width: 100vw;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: colors.$bg-1;
+    height: 100vh;
+    width: 100vw;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
-	.login-container {
-		background-color: colors.$bg-2;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		color: colors.$text-color;
-		font-family: Verdana, Geneva, Tahoma, sans-serif;
-		text-align: center;
-		width: 450px;
-		margin: auto;
-		padding: 1rem;
-		box-sizing: border-box;
+    .login-container {
+        background-color: colors.$bg-2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: colors.$text-color;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-align: center;
+        width: 450px;
+        margin: auto;
+        padding: 1rem;
+        box-sizing: border-box;
 
-		.logo {
-			height: 50px;
-			margin-bottom: 1rem;
-			display: flex;
-			flex-direction: row;
+        .logo {
+            height: 50px;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: row;
 
-			img {
-				height: 100%;
-				width: auto;
-			}
+            img {
+                height: 100%;
+                width: auto;
+            }
 
-			div {
-				margin: auto auto auto 1rem;
-				font-size: 2rem;
-			}
-		}
-	}
+            div {
+                margin: auto auto auto 1rem;
+                font-size: 2rem;
+            }
+        }
+    }
 
-	.text-entry {
-		/* background-color: colors.$bg-1; */
-		width: 100%;
-		padding: 0.25rem;
-		box-sizing: border-box;
-		margin-bottom: 1rem;
+    .text-entry {
+        width: 100%;
+        padding: 0.25rem;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
 
-		.title {
-			text-align: left;
-		}
+        .title {
+            text-align: left;
+        }
 
-		input {
-			height: 30px;
-			width: 100%;
-			box-sizing: border-box;
-		}
-	}
+        input {
+            height: 30px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
 
-	.text-entry.last {
-		margin-bottom: 0;
-	}
+    .text-entry.last {
+        margin-bottom: 0;
+    }
 
-	.button-container {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		margin-top: 1rem;
+    .button-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 1rem;
 
-		button {
-			width: 100%;
-			background-color: colors.$bg-button;
-			color: colors.$text-color;
-			border: none;
-			border-radius: 4px;
-			padding: 0.5rem 1rem;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
-			margin-right: 1rem;
+        button {
+            width: 100%;
+            background-color: colors.$bg-button;
+            color: colors.$text-color;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 1rem;
 
-			&:hover {
-				background-color: colors.$bg-button-hover;
-			}
-		}
+            &:hover {
+                background-color: colors.$bg-button-hover;
+            }
+        }
 
-		button:last-of-type {
-			margin-right: 0;
-		}
-	}
+        button:last-of-type {
+            margin-right: 0;
+        }
+    }
 
-	.navbar {
-		display: flex;
-		flex-direction: row;
-		width: 100%;
-		height: 50px;
-		background-color: colors.$bg-2;
+    .navbar {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 50px;
+        background-color: colors.$bg-2;
 
-		.logo {
-			height: 100%;
-			padding: 0.5rem;
-			box-sizing: border-box;
+        .logo {
+            height: 100%;
+            padding: 0.5rem;
+            box-sizing: border-box;
 
-			a {
-				height: 100%;
-				display: flex;
-				flex-direction: row;
-				text-decoration: none;
-				color: white;
+            a {
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                text-decoration: none;
+                color: white;
 
-				img {
-					height: 100%;
-				}
+                img {
+                    height: 100%;
+                }
 
-				span {
-					margin: auto auto auto 1rem;
-					font-size: 2rem;
-				}
-			}
+                span {
+                    margin: auto auto auto 1rem;
+                    font-size: 2rem;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                }
+            }
 
-		}
+        }
 
-		.nav {
-			margin: auto 0 auto auto;
-			height: 100%;
-			display: flex;
-			flex-direction: row;
+        .nav {
+            margin: auto 0 auto auto;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
 
-			a {
-				height: 100%;
-				width: 100px;
-				background-color: colors.$bg-button;
-				display: flex;
-				flex-direction: row;
-				text-decoration: none;
-				color: white;
+            a {
+                height: 100%;
+                width: 100px;
+                background-color: colors.$bg-button;
+                display: flex;
+                flex-direction: row;
+                text-decoration: none;
+                color: white;
 
-				span {
-					margin: auto;
-				}
+                span {
+                    margin: auto;
+                }
 
-				&:hover {
-					background-color: colors.$bg-button-hover;
-				}
-			}
+                &:hover {
+                    background-color: colors.$bg-button-hover;
+                }
+            }
 
-		}
-	}
+        }
+    }
 
-	.page-content {
-		width: 1200px;
-		margin: 2rem auto;
-		background-color: colors.$bg-2;
-		padding: 1rem;
-		box-sizing: border-box;
-		color: white;
-	}
+    .page-content {
+        width: 1200px;
+        margin: 2rem auto;
+        background-color: colors.$bg-2;
+        padding: 1rem;
+        box-sizing: border-box;
+        color: white;
+    }
 }
 
 .hidden {
-	display: none !important;
+    display: none !important;
 }
 
 button {
-	display: flex;
-	flex-direction: row;
-	background-color: colors.$bg-button;
-	text-decoration: none;
-	border: 0;
+    display: flex;
+    flex-direction: row;
+    background-color: colors.$bg-button;
+    text-decoration: none;
+    border: 0;
 
-	cursor: pointer;
+    cursor: pointer;
 
-	span {
-		margin: auto;
-		color: white;
-	}
+    span {
+        margin: auto;
+        color: white;
+    }
 
-	&:hover {
-		background-color: colors.$bg-button-hover;
-	}
+    &:hover {
+        background-color: colors.$bg-button-hover;
+    }
 }
 
 dialog {
-	background-color: colors.$bg-2;
-	color: white;
-	border: 0;
-	width: 500px;
+    background-color: colors.$bg-2;
+    color: white;
+    border: 0;
+    width: 500px;
 
-	&::backdrop {
-		background-color: rgba(0, 0, 0, 0.75);
-	}
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.75);
+    }
 
-	.dialog-title {
-		font-size: 1.3rem;
-		text-align: center;
-		margin-bottom: 1rem;
-	}
+    .dialog-title {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 
-	.dialog-entry {
-		margin-bottom: 1rem;
-		display: flex;
-		width: 100%;
+    .dialog-entry {
+        margin-bottom: 1rem;
+        display: flex;
+        width: 100%;
 
-		input {
-			width: 100%;
-			height: 26px;
-			padding: 0;
-			margin: 0;
-		}
-	}
+        input {
+            width: 100%;
+            height: 26px;
+            padding: 0;
+            margin: 0;
+        }
+    }
 
-	.horizontal-button {
-		display: flex;
-		flex-direction: row;
-		gap: 1rem;
+    .horizontal-button {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
 
-		button {
-			width: 100%;
-			height: 30px;
-		}
-	}
+        button {
+            width: 100%;
+            height: 30px;
+        }
+    }
 }
