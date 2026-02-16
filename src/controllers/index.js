@@ -1,3 +1,5 @@
+const crypto = require('../services/crypto');
+
 const getIndex = async (req, res, next) => {
     try {
         res.render("index", { requestingUser: req.requestingUser });
@@ -30,4 +32,12 @@ const getLogout = async (req, res, next) => {
     }
 };
 
-module.exports = { getIndex, getSignup, getLogin, getLogout };
+const getPublicKey = async (req, res, next) => {
+    try {
+        res.set('Content-Type', 'text/plain').send(crypto.getPubKey());
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports = { getIndex, getSignup, getLogin, getLogout, getPublicKey };

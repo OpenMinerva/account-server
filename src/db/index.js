@@ -72,9 +72,44 @@ async function createAccount({ username, password, role } = {}) {
 async function updateAccount({ } = {}) { }
 async function deleteAccount({ } = {}) { }
 
-async function getDevice({ } = {}) { }
-async function createDevice({ } = {}) { }
-async function deleteDevice({ } = {}) { }
+// FIXME: Always returns a device for userId even if the pubkey is different.
+async function getDevice({ id, pubKey, userId } = {}) {
+	try {
+		let selectQuery = {
+			id: devices.id,
+			pubKey: devices.pubKey,
+			userId: devices.userId
+		};
+
+		if (id) {
+			const dev = (await db.select(selectQuery).from(devices).where(eq(devices.id, id)))[0];
+			return dev;
+		}
+
+		if (userId && pubKey) {
+			const dev = (await db.select(selectQuery).from(devices).where(eq(devices.userId, userId), eq(devices.pubKey, pubKey)))[0];
+			return dev;
+		}
+
+		return await db.select(selectQuery).from(devices)
+	}
+	catch (e) {
+		logger.error("Unknown error trying to search for a device.", e);
+		return { ok: false, message: "Unknown error." }
+	}
+}
+async function createDevice({ pubKey, userId } = {}) {
+	try {
+		logger.info(`Creating a device for '${userId}'`);
+		const deviceDatabaseResponse = await db.insert(devices).values({ userId, pubKey, deviceName: "Hallo" }).returning()
+		return deviceDatabaseResponse.id
+	}
+	catch (e) {
+		logger.error("Unknown error trying to add a device to a account.", e);
+		return { ok: false, message: "Unknown error." }
+	}
+}
+async function deleteDevice({ id } = {}) { }
 
 async function authDevice({ } = {}) { }
 async function authLogin({ username, password } = {}) {
@@ -89,4 +124,4 @@ async function authLogin({ username, password } = {}) {
 	}
 }
 
-module.exports = { getAccount, createAccount, authLogin }
+module.exports = { getAccount, createAccount, getDevice, createDevice, deleteDevice, authLogin }

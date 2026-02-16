@@ -21,7 +21,7 @@ async function comparePassword(password, passwordHash) {
     }
 }
 
-async function createJWT(accountData, scope = "webAuth") {
+async function createJWT(accountData, scope = "private_account_server_jwt", deviceId = null) {
     if (!accountData.id) {
         return { ok: false, message: "No ID specified." }
     }
@@ -37,9 +37,11 @@ async function createJWT(accountData, scope = "webAuth") {
         username: accountData.username,
         role: accountData.role,
         scope: scope,
-        issuer: "http://localhost:40400"
+        issuer: "http://localhost:40400",
+        deviceId
     }
 
+    // TODO: Remember me, extend expiresIn
     const token = jwt.sign(info, privateKey, { expiresIn: "1d", algorithm: 'RS256' });
 
     return { ok: true, response: token }
@@ -49,7 +51,7 @@ async function verifyJWT(token) {
     try {
         const verification = await jwt.verify(token, privateKey);
 
-        if (verification.scope != "webAuth") {
+        if (verification.scope != "private_account_server_jwt") {
             return { ok: false, message: "Invalid scope." }
         }
 

@@ -14,7 +14,7 @@ const accounts = sqliteTable("accounts", {
 
 const devices = sqliteTable("devices", {
 	id: text("id").primaryKey().unique().$defaultFn(() => randomUUID()),
-	deviceName: text("deviceName").notNull().unique(),
+	deviceName: text("deviceName").notNull(),
 	userId: text("userId").notNull(),
 	pubKey: text("pubKey").notNull(),
 	dateCreated: integer("dateCreated", { mode: "timestamp_ms" }).default(sql`(unixepoch() * 1000)`).notNull(),
