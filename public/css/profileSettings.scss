@@ -1,0 +1,32 @@
+.devices-tables {
+    width: 100%;
+
+    .min-width {
+        width: fit-content;
+    }
+
+    .fit-width {
+        width: max-content;
+    }
+
+    .fill-width {
+        width: 100%;
+    }
+
+    tbody {
+        tr {
+            td {
+                div {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 1rem;
+
+                    button {
+                        padding: 0.25rem 0.5rem;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+        }
+    }
+}

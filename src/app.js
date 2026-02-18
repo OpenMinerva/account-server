@@ -6,7 +6,7 @@ const methodOverride = require("method-override");
 
 // Routes
 const indexRoutes = require("./routes/index");
-// const accountRoutes = require("./routes/account");
+const accountRoutes = require("./routes/account");
 // const adminRoutes = require("./routes/admin");
 const apiRoutes = require("./routes/api");
 
@@ -30,7 +30,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api", apiRoutes);         // API is required to make an account. If this is after ensuring the setup we would be caught in a loop!
 app.use(ensureSetup.middleware);
-// app.use("/account", accountRoutes);
+app.use("/account", accountRoutes);
 // app.use("/admin", adminRoutes);
 app.use("/", indexRoutes);
 

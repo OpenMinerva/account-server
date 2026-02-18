@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        <%= targetUser.username %> | PrismLens
+    </title>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" type="text/css" href="/css/generic.css" />
+        <link rel="stylesheet" type="text/css" href="/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="/css/profileSettings.css" />
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+        <div class="page-content">
+            <h1>Devices</h1>
+            <table class="devices-tables">
+                <thead>
+                    <tr>
+                        <th class="min-width">ID</th>
+                        <th class="min-width">Name</th>
+                        <th class="fit-width">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (device of targetUserDevices) { %>
+                        <tr>
+                            <td class="min-width">
+                                <%= device.id %>
+                            </td>
+                            <td class="min-width">Unnamed</td>
+                            <td class="fit-width">
+                                <div class="fit-width">
+                                    <button class="button"><span>View Token</span></button>
+                                    <button class="button"><span>Delete</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+
+        </div>
+</body>
+
+</html>

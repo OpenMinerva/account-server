@@ -12,12 +12,15 @@
 				<a href="/admin"><span>Admin</span></a>
 				<% } %>
 
-					<% if (requestingUser) { %>
-						<a href="/logout"><span>Logout</span></a>
+					<% if (requestingUser ) { %>
+						<a href="/account/<%= requestingUser.id%>"><span>Account</span></a>
 						<% } %>
+							<% if (requestingUser) { %>
+								<a href="/logout"><span>Logout</span></a>
+								<% } %>
 
-							<% } else { %>
-								<a href="/login"><span>Login</span></a>
-								<%}%>
+									<% } else { %>
+										<a href="/login"><span>Login</span></a>
+										<%}%>
 	</div>
 </div>
