@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="/css/generic.css" />
         <link rel="stylesheet" type="text/css" href="/css/index.css" />
         <link rel="stylesheet" type="text/css" href="/css/profileSettings.css" />
+        <script src="/js/accountSettings.js"></script>
 </head>
 
 <body>
@@ -31,11 +32,14 @@
                             <td class="min-width">
                                 <%= device.id %>
                             </td>
-                            <td class="min-width">Unnamed</td>
+                            <td class="min-width">
+                                <%= device.deviceName %>
+                            </td>
                             <td class="fit-width">
                                 <div class="fit-width">
                                     <button class="button"><span>View Token</span></button>
-                                    <button class="button"><span>Delete</span></button>
+                                    <button class="button"
+                                        onclick="deleteDevice('<%= device.id %>')"><span>Delete</span></button>
                                 </div>
                             </td>
                         </tr>

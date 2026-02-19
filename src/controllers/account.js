@@ -43,8 +43,6 @@ const getAccountSettings = async (req, res, next) => {
             return;
         }
 
-        console.log(dbResponseDevices)
-
         res.render("accountSettings", { requestingUser: req.requestingUser, targetUser: dbResponseAccount, targetUserDevices: dbResponseDevices });
     } catch (err) {
         next(err);

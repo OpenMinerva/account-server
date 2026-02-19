@@ -1,9 +1,10 @@
 const { db } = require("./db");
 const { accounts, devices } = require("./schema");
-const { eq } = require("drizzle-orm");
+const { eq, and } = require("drizzle-orm");
 const crypto = require("../services/crypto");
 const logger = require("../services/logger");
 const ensureSetup = require("../services/setup");
+const { randomUUID } = require('crypto');
 
 async function getAccount({ id, username, role } = {}, { includePassword = false } = {}) {
 	let selectQuery = {
@@ -73,7 +74,7 @@ async function updateAccount({ } = {}) { }
 async function deleteAccount({ } = {}) { }
 
 // FIXME: Always returns a device for userId even if the pubkey is different.
-async function getDevice({ id, pubKey, userId } = {}) {
+async function getDevice({ id, pubKey, userId } = {}, { } = {}) {
 	try {
 		let selectQuery = {
 			id: devices.id,
@@ -81,16 +82,19 @@ async function getDevice({ id, pubKey, userId } = {}) {
 			userId: devices.userId
 		};
 
-		if (id) {
-			const dev = (await db.select(selectQuery).from(devices).where(eq(devices.id, id)))[0];
+		if (id && userId) {
+			logger.debug("Getting device using device ID and userID.");
+			const dev = (await db.select(selectQuery).from(devices).where(and(eq(devices.id, id), eq(devices.userId, userId))))[0];
 			return dev;
 		}
 
 		if (userId && pubKey) {
-			const dev = (await db.select(selectQuery).from(devices).where(eq(devices.userId, userId), eq(devices.pubKey, pubKey)))[0];
+			logger.debug("Getting device using pubkey and userID.");
+			const dev = (await db.select(selectQuery).from(devices).where(and(eq(devices.userId, userId), eq(devices.pubKey, pubKey))))[0];
 			return dev;
 		}
 
+		logger.debug("Getting device using generic query.");
 		return await db.select(selectQuery).from(devices)
 	}
 	catch (e) {
@@ -101,7 +105,7 @@ async function getDevice({ id, pubKey, userId } = {}) {
 async function createDevice({ pubKey, userId } = {}) {
 	try {
 		logger.info(`Creating a device for '${userId}'`);
-		const deviceDatabaseResponse = await db.insert(devices).values({ userId, pubKey, deviceName: "Hallo" }).returning()
+		const deviceDatabaseResponse = await db.insert(devices).values({ userId, pubKey, deviceName: randomUUID() }).returning()
 		return deviceDatabaseResponse.id
 	}
 	catch (e) {
@@ -109,7 +113,14 @@ async function createDevice({ pubKey, userId } = {}) {
 		return { ok: false, message: "Unknown error." }
 	}
 }
-async function deleteDevice({ id } = {}) { }
+async function deleteDevice({ id } = {}) {
+	try {
+		logger.debug(`Deleting device '${id}'.`);
+		const response = await db.delete(devices).where(eq(devices.id, id)).returning({ deviceId: devices.id, userId: devices.userId });
+		return response;
+	}
+	catch (e) { }
+}
 
 async function authDevice({ } = {}) { }
 async function authLogin({ username, password } = {}) {
