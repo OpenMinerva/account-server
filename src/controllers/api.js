@@ -60,7 +60,7 @@ async function authDevice(req, res, next) {
 	// A client tries to sign into their account using the application.
 	try {
 		logger.debug("Trying to authenticate a device.")
-		// username, password, pubKey
+
 		const COOKIE_SETTINGS = {
 			httpOnly: false,
 			secure: process.env.NODE_ENV === "production",
@@ -68,16 +68,8 @@ async function authDevice(req, res, next) {
 			maxAge: 24 * 60 * 60 * 1000,
 		};
 
-		const response = await authService.authLogin({ username: req.body.username, password: req.body.password });
-
-		if (response.ok == false) {
-			logger.debug("Failed trying to authenticate the login.")
-			res.status(403).json({ ok: false, ...response });
-			return
-		}
-
 		// TODO: Verify that the provided key is a key that we expect.
-		const existingDevice = await deviceService.getDevice({ userId: response.response.id, pubKey: req.body.pubKey });
+		const existingDevice = await deviceService.getDevice({ userId: req.requestingUser.id, pubKey: req.body.pubKey });
 
 		// DEBUG:
 		if (existingDevice) {
@@ -85,10 +77,10 @@ async function authDevice(req, res, next) {
 		}
 		else {
 			logger.debug("This device has not been registered to this account yet.");
-			await deviceService.createDevice({ pubKey: req.body.pubKey, userId: response.response.id });
+			await deviceService.createDevice({ pubKey: req.body.pubKey, userId: req.requestingUser.id });
 		}
 
-		const jwtToken = await crypto.createJWT(response.response, "public_account_server_passport", existingDevice?.id || null);
+		const jwtToken = await crypto.createJWT(req.requestingUser, "public_account_server_passport", existingDevice?.id || null);
 
 		if (jwtToken.ok == false) {
 			logger.error("Unknown error creating a JWT.", jwtToken.message);
