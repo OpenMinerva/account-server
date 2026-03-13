@@ -5,12 +5,20 @@ module.exports = async function auth(req, res, next) {
     if (!token) return next();
 
     try {
-        const decoded = await crypto.verifyJWT(token);
+        let decoded;
+        if (token.access_token) {
+            decoded = await crypto.verifyJWK(token);
+        }
+        else {
+            decoded = await crypto.verifyJWT(token);
+        }
+
+        console.log(decoded)
 
         if (decoded.ok == true) {
             req.requestingUser = decoded.response;
-            next();
         }
+        next();
     } catch {
         next();
     }

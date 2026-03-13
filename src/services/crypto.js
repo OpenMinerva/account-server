@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const fs = require("fs")
 const logger = require('../services/logger');
 const jwt = require("jsonwebtoken");
+const jose = require("jose")
 
 let privateKey = null;
 let publicKey = null;
@@ -49,7 +50,7 @@ async function createJWT(accountData, scope = "private_account_server_jwt", devi
 
 async function verifyJWT(token) {
     try {
-        const verification = await jwt.verify(token, privateKey);
+        const verification = await jwt.verify(token.access_token, privateKey);
 
         if (verification.scope != "private_account_server_jwt") {
             return { ok: false, message: "Invalid scope." }
@@ -57,6 +58,20 @@ async function verifyJWT(token) {
 
         return { ok: true, response: verification }
     } catch (e) {
+        return { ok: false, message: "Unknown error." }
+    }
+}
+
+async function verifyJWK(token) {
+    try {
+        var publicJwks = JSON.parse(fs.readFileSync('data/keys/oidc-public-keys.json', 'utf8'));
+        const cryptoKey = await jose.importJWK(publicJwks.keys[0], "RS256")
+        const publicKey = await jose.exportSPKI(cryptoKey)
+
+        const valid = jwt.verify(token.id_token, publicKey)
+        return { ok: true, response: valid }
+    } catch (e) {
+        console.log(e)
         return { ok: false, message: "Unknown error." }
     }
 }
@@ -105,4 +120,4 @@ function getPubKey() {
 publicKey = fs.readFileSync("./data/keys/public.pem") || null
 privateKey = fs.readFileSync("./data/keys/private.pem") || null
 
-module.exports = { hashPassword, comparePassword, createJWT, verifyJWT, getPrivKey, getPubKey }
+module.exports = { hashPassword, comparePassword, createJWT, verifyJWK, verifyJWT, getPrivKey, getPubKey }
