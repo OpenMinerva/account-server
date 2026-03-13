@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
 const { Provider } = require('oidc-provider');
+const session = require('express-session');
 require('dotenv').config()
 
 const fs = require("fs");
@@ -31,6 +32,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// FIXME: Throw an error about server being ran in developer mode.
+app.use(session({
+	secret: process.env.SESSION_SECRET || 'OH23498SDFKJGS8923HJSDF980G=23-4=2439U',
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		secure: process.env.NODE_ENV === 'production',
+		httpOnly: true,
+		sameSite: 'lax',
+		maxAge: 24 * 60 * 60 * 1000
+	}
+}));
 
 const OAUTH_CONFIG = {
 	issuer: process.env.HOST_URL,

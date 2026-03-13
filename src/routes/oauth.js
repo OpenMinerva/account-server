@@ -37,8 +37,7 @@ router.get('/callback', async (req, res) => {
                 code: code,
                 redirect_uri: `${process.env.HOST_URL}/callback`,
                 client_id: 'OpenMinerva Game Client',
-                // FIXME: Hardcoded code_verifier
-                code_verifier: "_6LBUC-6o_gecwIKGx7Rs4Ni4FdhJnjC1DbnY08tr5ySjF8AbGscfHPokHUz7Xpj"
+                code_verifier: req.session.oauth.code_verifier
             }),
         });
 
