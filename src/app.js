@@ -48,17 +48,52 @@ app.use(session({
 const OAUTH_CONFIG = {
 	issuer: process.env.HOST_URL,
 
-	clients: [{
-		client_id: 'OpenMinerva Game Client',
-		redirect_uris: [`${process.env.HOST_URL}/callback`, `org.openminerva.auth://oauth/callback`],
-		grant_types: ['authorization_code'],
-		response_types: ['code'],
-		application_type: 'native',
-		token_endpoint_auth_method: 'none'
-	}],
+	clients: [
+		// {
+		// 	client_id: 'OpenMinerva Game Client',
+		// 	redirect_uris: [`org.openminerva.auth://oauth/callback`],
+		// 	grant_types: ['authorization_code'],
+		// 	response_types: ['code'],
+		// 	application_type: 'native',
+		// 	token_endpoint_auth_method: 'none'
+		// },
+		{
+			client_id: 'OpenMinerva-Web',
+			redirect_uris: [`${process.env.HOST_URL}/oauth/callback`],
+			grant_types: ['authorization_code'],
+			response_types: ['code'],
+			application_type: 'web',
+			token_endpoint_auth_method: 'none'
+		},
+	],
+	ttl: {
+		// Authorization Code: Short-lived
+		AuthorizationCode: 10 * 60,
+
+		// Access Token: Short-lived
+		AccessToken: 60 * 60,
+
+		IdToken: 60 * 60,
+
+		// Refresh Token: Long-lived 
+		RefreshToken: 14 * 24 * 60 * 60,
+
+		// Session: Interaction Session (Login state)
+		Session: 12 * 60 * 60
+	},
+	cookies: {
+		keys: [
+			'some-very-long-random-secret-key',
+			'another-long-key-for-rotation'
+		],
+	},
+	claims: {
+		openid: ['sub'],
+	},
 
 	features: {
 		dPoP: { enabled: true },
+		devInteractions: { enabled: false },
 	},
 
 	routes: {
@@ -68,12 +103,38 @@ const OAUTH_CONFIG = {
 		registration: '/register',
 	},
 
+	interactions: {
+		url: (ctx, interaction) => {
+			return `/oauth/interaction/${interaction.uid}`;
+		},
+	},
+
+	async findAccount(ctx, id) {
+		let response = await fetch(`${process.env.HOST_URL}/api/v1/account?id=${id}`, {
+			method: 'GET',
+			headers: { 'Accept': 'application/json' }
+		});
+		response = await response.json();
+		response = response.response;
+
+		return {
+			accountId: response.id,
+
+			claims: (use, scope, claims, denied) => {
+				return {
+					sub: response.id,
+					preferred_username: response.username
+				}
+			}
+
+		}
+	},
+
 	jwks: JSON.parse(fs.readFileSync('data/keys/oidc-private-keys.json', 'utf8'))
 };
 const oidc = new Provider(process.env.HOST_URL, OAUTH_CONFIG);
 
 app.set('oidc-provider', oidc);
-app.use('/oauth', oidc.callback());
 
 // Routes
 // API is required to make an account. If this is after ensuring the setup we would be caught in a loop!
@@ -82,8 +143,18 @@ app.use(ensureSetup.middleware);
 app.use("/account", accountRoutes);
 // app.use("/admin", adminRoutes);
 app.use("/", indexRoutes);
-app.use("/", oauthRoutes);
+app.use("/oauth", oauthRoutes);
+app.use('/oauth', oidc.callback());
 
-app.use(errorHandler); // Everything else in an error.
+app.use(errorHandler);
 
+// TODO: oidc logging
+// oidc.on('error', (err, ctx) => {
+// 	console.error('OIDC Provider Error:', err);
+// 	console.error('Context:', ctx);
+// });
+
+// oidc.on('interaction.ended', (ctx) => {
+// 	console.log('Interaction Ended:', ctx);
+// });
 module.exports = app;

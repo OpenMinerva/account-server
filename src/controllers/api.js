@@ -7,7 +7,12 @@ const logger = require('../services/logger');
 const crypto = require("../services/crypto")
 
 async function getAccount(req, res, next) {
-	res.status(200).json({ ok: true });
+	const username = req?.query?.username || null;
+	const id = req?.query?.id || null;
+
+	const dbResponse = await accountService.getAccount({ id, username });
+
+	res.status(200).json({ ok: true, response: dbResponse });
 	return;
 }
 async function createAccount(req, res, next) {

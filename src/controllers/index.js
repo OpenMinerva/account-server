@@ -14,16 +14,16 @@ const getLogin = async (req, res, next) => {
         const codeVerifier = randomBytes(32).toString('base64url');
         const state = randomBytes(16).toString('base64url');
         const codeChallenge = createHash('sha256').update(codeVerifier).digest('base64url');
+
         req.session.oauth = {
             state: state,
             code_verifier: codeVerifier
         };
 
-        // FIXME: Change to Web client
         const params = new URLSearchParams({
             response_type: 'code',
-            client_id: 'OpenMinerva Game Client',
-            redirect_uri: `${process.env.HOST_URL}/callback`,
+            client_id: 'OpenMinerva-Web',
+            redirect_uri: `${process.env.HOST_URL}/oauth/callback`,
             scope: 'openid',
             state: state,
             code_challenge: codeChallenge,
