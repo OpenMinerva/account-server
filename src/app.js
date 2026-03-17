@@ -131,7 +131,7 @@ const OAUTH_CONFIG = {
 		}
 	},
 
-	jwks: JSON.parse(fs.readFileSync('data/keys/oidc-private-keys.json', 'utf8'))
+	jwks: JSON.parse(fs.readFileSync('data/keys/private.json', 'utf8'))
 };
 const oidc = new Provider(process.env.HOST_URL, OAUTH_CONFIG);
 

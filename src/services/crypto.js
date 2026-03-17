@@ -50,7 +50,6 @@ async function createJWT(accountData, scope = "private_account_server_jwt", devi
 
 async function verifyJWT(token) {
     try {
-        await getPubKey();
         let { payload, protectedHeader } = await jose.jwtVerify(token, publicKey);
 
         if (payload.aud != "OpenMinerva-Web") {
@@ -60,8 +59,13 @@ async function verifyJWT(token) {
         return { ok: true, response: payload };
     }
     catch (e) {
-        logger.error(e);
-        return { ok: false, message: "Unknown error." }
+        let message = "Unknown error."
+        if (e.code === "ERR_JWS_SIGNATURE_VERIFICATION_FAILED") {
+            message = "JWT signature verification failed.";
+        }
+
+        logger.error(message);
+        return { ok: false, message }
     }
 }
 
@@ -83,22 +87,24 @@ async function verifyJWK(token) {
  * Generates a public and private keypair.
  * Will then store the keypair to disk
  */
-async function generateKeyPairs({ saveToDisk = true } = {}) {
-    const keys = crypto.generateKeyPairSync("rsa", {
-        modulusLength: 2048,
-        publicKeyEncoding: { type: 'spki', format: 'pem' },
-        privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
-    });
+async function generateKeys({ saveToDisk = true } = {}) {
+    // TODO: Key rotation
+    const keys = await jose.generateKeyPair('RS256', { modulusLength: 4096, extractable: true });
+    const kid = crypto.randomBytes(16).toString('hex')
 
-    // Save to the variables.
-    privateKey = keys.privateKey
-    publicKey = keys.publicKey
+    const privateKeyJwk = await jose.exportJWK(keys.privateKey);
+    privateKeyJwk.alg = 'RS256';
+    privateKeyJwk.use = 'sig';
+    privateKeyJwk.kid = kid;
+    const privateJwks = { keys: [privateKeyJwk] };
+    fs.writeFileSync('./data/keys/private.json', JSON.stringify(privateJwks, null, 2));
 
-    // Save to disk for persistence.
-    await fs.mkdirSync("./data/keys/", { recursive: true });
-
-    fs.writeFileSync("./data/keys/public.pem", keys.publicKey);
-    fs.writeFileSync("./data/keys/private.pem", keys.privateKey);
+    const publicKeyJwk = await jose.exportJWK(keys.publicKey);
+    publicKeyJwk.alg = 'RS256';
+    publicKeyJwk.use = 'sig';
+    publicKeyJwk.kid = kid;
+    const publicJwks = { keys: [publicKeyJwk] };
+    fs.writeFileSync('./data/keys/public.json', JSON.stringify(publicJwks, null, 2));
 }
 
 // FIXME: If keys are not available, the application will error.
@@ -111,7 +117,7 @@ async function getPrivKey() {
     if (privateKey) {
         return privateKey;
     }
-    privateKey = await jose.importJWK(JSON.parse(fs.readFileSync("./data/keys/oidc-private-keys.json")).keys[0]) || null;
+    privateKey = await jose.importJWK(JSON.parse(fs.readFileSync("./data/keys/private.json")).keys[0]) || null;
     return privateKey
 }
 
@@ -124,8 +130,28 @@ async function getPubKey() {
     if (privateKey) {
         return publicKey;
     }
-    publicKey = await jose.importJWK(JSON.parse(fs.readFileSync("./data/keys/oidc-public-keys.json")).keys[0]) || null;
+    publicKey = await jose.importJWK(JSON.parse(fs.readFileSync("./data/keys/public.json")).keys[0]) || null;
     return privateKey
 }
+
+async function _maybeGenerateKeyPairs() {
+    const bothFilesExist = fs.existsSync("./data/keys/private.json") && fs.existsSync("./data/keys/public.json");
+
+    if (bothFilesExist) {
+        getPrivKey()
+        getPubKey()
+        logger.info("Public and private jose keys found.");
+        return;
+    }
+
+    logger.info("Public and/or private jose keys not found, generating a new set.");
+    await generateKeys()
+    // TODO: Verify the integrity
+    getPrivKey()
+    getPubKey()
+    return;
+}
+
+_maybeGenerateKeyPairs();
 
 module.exports = { hashPassword, comparePassword, createJWT, verifyJWK, verifyJWT, getPrivKey, getPubKey }
