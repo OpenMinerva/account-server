@@ -16,8 +16,4 @@ router.get("/v1/device", requireAuth, apiController.getDevice);
 router.post("/v1/device", requireAuth, apiController.createDevice);
 router.delete("/v1/device", requireAuth, apiController.deleteDevice);
 
-// Authentication
-router.post("/v1/device/auth", requireAuth, apiController.authDevice);
-router.post("/v1/login", apiController.authLogin);
-
 module.exports = router

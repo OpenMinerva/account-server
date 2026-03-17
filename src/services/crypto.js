@@ -22,32 +22,6 @@ async function comparePassword(password, passwordHash) {
     }
 }
 
-async function createJWT(accountData, scope = "private_account_server_jwt", deviceId = null) {
-    if (!accountData.id) {
-        return { ok: false, message: "No ID specified." }
-    }
-    if (!accountData.username) {
-        return { ok: false, message: "No username specified." }
-    }
-    if (!accountData.role) {
-        return { ok: false, message: "No role specified." }
-    }
-
-    const info = {
-        id: accountData.id,
-        username: accountData.username,
-        role: accountData.role,
-        scope: scope,
-        issuer: "http://localhost:40400",
-        deviceId
-    }
-
-    // TODO: Remember me, extend expiresIn
-    const token = jwt.sign(info, privateKey, { expiresIn: "1d", algorithm: 'RS256' });
-
-    return { ok: true, response: token }
-}
-
 async function verifyJWT(token) {
     try {
         let { payload, protectedHeader } = await jose.jwtVerify(token, publicKey);
@@ -140,4 +114,4 @@ async function _maybeGenerateKeyPairs() {
 
 _maybeGenerateKeyPairs();
 
-module.exports = { hashPassword, comparePassword, createJWT, verifyJWT, getPrivKey, getPubKey }
+module.exports = { hashPassword, comparePassword, verifyJWT, getPrivKey, getPubKey }

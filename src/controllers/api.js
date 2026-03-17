@@ -61,78 +61,6 @@ async function deleteDevice(req, res, next) {
 	return;
 }
 
-async function authDevice(req, res, next) {
-	// A client tries to sign into their account using the application.
-	try {
-		logger.debug("Trying to authenticate a device.")
-
-		const COOKIE_SETTINGS = {
-			httpOnly: false,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: "lax",
-			maxAge: 24 * 60 * 60 * 1000,
-		};
-
-		// TODO: Verify that the provided key is a key that we expect.
-		const existingDevice = await deviceService.getDevice({ userId: req.requestingUser.id, pubKey: req.body.pubKey });
-
-		// DEBUG:
-		if (existingDevice) {
-			logger.debug("This device is already registered to the account.");
-		}
-		else {
-			logger.debug("This device has not been registered to this account yet.");
-			await deviceService.createDevice({ pubKey: req.body.pubKey, userId: req.requestingUser.id });
-		}
-
-		const jwtToken = await crypto.createJWT(req.requestingUser, "public_account_server_passport", existingDevice?.id || null);
-
-		if (jwtToken.ok == false) {
-			logger.error("Unknown error creating a JWT.", jwtToken.message);
-			res.status(500).json({ ok: false });
-			return
-		}
-
-		res.cookie("token", jwtToken.response, COOKIE_SETTINGS).json({ ok: true })
-	} catch (e) {
-		logger.error("Unknown error creating a JWT.", e);
-		res.status(500).json({ ok: false });
-	}
-}
-
-async function authLogin(req, res, next) {
-	try {
-		const COOKIE_SETTINGS = {
-			httpOnly: false,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: "lax",
-			maxAge: 24 * 60 * 60 * 1000,
-		};
-
-		const response = await authService.authLogin({ username: req.body.username, password: req.body.password });
-
-		if (response.ok == false) {
-			res.status(403).json({ ok: false, ...response });
-			return
-		}
-
-		let jwtToken = null;
-
-		jwtToken = await crypto.createJWT(response.response, "private_account_server_jwt");
-
-		if (jwtToken.ok == false) {
-			logger.error("Unknown error creating a JWT.", jwtToken.message);
-			res.status(500).json({ ok: false });
-			return
-		}
-
-		res.cookie("token", jwtToken.response, COOKIE_SETTINGS).json({ ok: true })
-	} catch (e) {
-		logger.error("Unknown error creating a JWT.", e);
-		res.status(500).json({ ok: false });
-	}
-}
-
 function _isRequestAllowedToViewPage(req) {
 	if (req.requestingUser == req.params.account_id) {
 		// Target page is of the user who is logged in
@@ -147,4 +75,4 @@ function _isRequestAllowedToViewPage(req) {
 	return false
 }
 
-module.exports = { getAccount, createAccount, patchAccount, deleteAccount, getDevice, createDevice, deleteDevice, authDevice, authLogin }
+module.exports = { getAccount, createAccount, patchAccount, deleteAccount, getDevice, createDevice, deleteDevice }
