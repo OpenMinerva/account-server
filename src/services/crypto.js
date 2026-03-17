@@ -69,20 +69,6 @@ async function verifyJWT(token) {
     }
 }
 
-async function verifyJWK(token) {
-    try {
-        var publicJwks = JSON.parse(fs.readFileSync('data/keys/oidc-public-keys.json', 'utf8'));
-        const cryptoKey = await jose.importJWK(publicJwks.keys[0], "RS256")
-        const publicKey = await jose.exportSPKI(cryptoKey)
-
-        const valid = jwt.verify(token.id_token, publicKey)
-        return { ok: true, response: valid }
-    } catch (e) {
-        console.log(e)
-        return { ok: false, message: "Unknown error." }
-    }
-}
-
 /**
  * Generates a public and private keypair.
  * Will then store the keypair to disk
@@ -154,4 +140,4 @@ async function _maybeGenerateKeyPairs() {
 
 _maybeGenerateKeyPairs();
 
-module.exports = { hashPassword, comparePassword, createJWT, verifyJWK, verifyJWT, getPrivKey, getPubKey }
+module.exports = { hashPassword, comparePassword, createJWT, verifyJWT, getPrivKey, getPubKey }
