@@ -6,12 +6,7 @@ module.exports = async function auth(req, res, next) {
 
     try {
         let decoded;
-        if (token.access_token) {
-            decoded = await crypto.verifyJWK(token);
-        }
-        else {
-            decoded = await crypto.verifyJWT(token);
-        }
+        decoded = await crypto.verifyJWT(token);
 
         if (decoded.ok == true) {
             req.requestingUser = decoded.response;

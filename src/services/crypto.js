@@ -50,14 +50,17 @@ async function createJWT(accountData, scope = "private_account_server_jwt", devi
 
 async function verifyJWT(token) {
     try {
-        const verification = await jwt.verify(token.access_token, privateKey);
+        await getPubKey();
+        let { payload, protectedHeader } = await jose.jwtVerify(token, publicKey);
 
-        if (verification.scope != "private_account_server_jwt") {
+        if (payload.aud != "OpenMinerva-Web") {
             return { ok: false, message: "Invalid scope." }
         }
 
-        return { ok: true, response: verification }
-    } catch (e) {
+        return { ok: true, response: payload };
+    }
+    catch (e) {
+        logger.error(e);
         return { ok: false, message: "Unknown error." }
     }
 }
@@ -98,13 +101,18 @@ async function generateKeyPairs({ saveToDisk = true } = {}) {
     fs.writeFileSync("./data/keys/private.pem", keys.privateKey);
 }
 
+// FIXME: If keys are not available, the application will error.
 /**
  * Returns the current private key of the instance.
  *
  * @returns {string} The current private key.
  */
-function getPrivKey() {
-    return privateKey;
+async function getPrivKey() {
+    if (privateKey) {
+        return privateKey;
+    }
+    privateKey = await jose.importJWK(JSON.parse(fs.readFileSync("./data/keys/oidc-private-keys.json")).keys[0]) || null;
+    return privateKey
 }
 
 /**
@@ -112,12 +120,12 @@ function getPrivKey() {
  *
  * @returns {string} The current public key.
  */
-function getPubKey() {
-    return publicKey;
+async function getPubKey() {
+    if (privateKey) {
+        return publicKey;
+    }
+    publicKey = await jose.importJWK(JSON.parse(fs.readFileSync("./data/keys/oidc-public-keys.json")).keys[0]) || null;
+    return privateKey
 }
-
-// FIXME: If keys are not available, will error.
-publicKey = fs.readFileSync("./data/keys/public.pem") || null
-privateKey = fs.readFileSync("./data/keys/private.pem") || null
 
 module.exports = { hashPassword, comparePassword, createJWT, verifyJWK, verifyJWT, getPrivKey, getPubKey }

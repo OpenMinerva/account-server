@@ -38,7 +38,7 @@ const callback = async (req, res, next) => {
         });
 
         const tokens = await response.json();
-        res.cookie("token", tokens, COOKIE_SETTINGS)
+        res.cookie("token", tokens.id_token, COOKIE_SETTINGS)
         res.redirect("/");
 
     } catch (error) {

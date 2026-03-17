@@ -88,7 +88,7 @@ const OAUTH_CONFIG = {
 		],
 	},
 	claims: {
-		openid: ['sub'],
+		openid: ['sub', 'role', 'preferred_username'],
 	},
 
 	features: {
@@ -123,7 +123,8 @@ const OAUTH_CONFIG = {
 			claims: (use, scope, claims, denied) => {
 				return {
 					sub: response.id,
-					preferred_username: response.username
+					preferred_username: response.username,
+					role: response.role
 				}
 			}
 

@@ -13,7 +13,7 @@
 				<% } %>
 
 					<% if (requestingUser ) { %>
-						<a href="/account/<%= requestingUser.id%>"><span>Account</span></a>
+						<a href="/account/<%= requestingUser.sub%>"><span>Account</span></a>
 						<% } %>
 							<% if (requestingUser) { %>
 								<a href="/logout"><span>Logout</span></a>
