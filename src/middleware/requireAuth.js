@@ -1,5 +1,3 @@
-const jwt = require("jsonwebtoken");
-const authService = require("../services/auth.js");
 const crypto = require("../services/crypto.js");
 
 module.exports = async function auth(req, res, next) {
