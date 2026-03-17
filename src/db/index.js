@@ -1,5 +1,5 @@
 const { db } = require("./db");
-const { accounts, devices } = require("./schema");
+const { accounts } = require("./schema");
 const { eq, and } = require("drizzle-orm");
 const crypto = require("../services/crypto");
 const logger = require("../services/logger");

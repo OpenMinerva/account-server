@@ -1,5 +1,4 @@
 const accountService = require('../services/account');
-const deviceService = require('../services/device');
 
 const getAccount = async (req, res, next) => {
     try {
@@ -30,7 +29,6 @@ const getAccountSettings = async (req, res, next) => {
         }
 
         const dbResponseAccount = await accountService.getAccount({ id: req.params.account_id });
-        const dbResponseDevices = await deviceService.getDevice({ userId: req.params.account_id });
 
         if (!dbResponseAccount) {
             // User not found
@@ -43,7 +41,7 @@ const getAccountSettings = async (req, res, next) => {
             return;
         }
 
-        res.render("accountSettings", { requestingUser: req.requestingUser, targetUser: dbResponseAccount, targetUserDevices: dbResponseDevices });
+        res.render("accountSettings", { requestingUser: req.requestingUser, targetUser: dbResponseAccount });
     } catch (err) {
         next(err);
     }

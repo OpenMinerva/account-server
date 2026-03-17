@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 const accountService = require('../services/account');
-const deviceService = require('../services/device');
 const authService = require('../services/auth');
 const logger = require('../services/logger');
 const crypto = require("../services/crypto")
@@ -35,32 +34,6 @@ async function deleteAccount(req, res, next) {
 	return;
 }
 
-async function getDevice(req, res, next) {
-	return;
-}
-async function createDevice(req, res, next) {
-	return;
-}
-async function deleteDevice(req, res, next) {
-	if (_isRequestAllowedToViewPage(req) == false) {
-		res.status(403).redirect('/');
-		return;
-	}
-
-	const deviceDb = await deviceService.getDevice({ id: req.body.deviceId, userId: req.requestingUser.id })
-
-	if (!deviceDb) {
-		logger.debug("Tried to delete a device that we can not find.")
-		res.status(404).redirect('/');
-		return;
-	}
-
-	await deviceService.deleteDevice({ id: deviceDb.id });
-
-	res.status(200).json({ ok: true });
-	return;
-}
-
 function _isRequestAllowedToViewPage(req) {
 	if (req.requestingUser == req.params.account_id) {
 		// Target page is of the user who is logged in
@@ -75,4 +48,4 @@ function _isRequestAllowedToViewPage(req) {
 	return false
 }
 
-module.exports = { getAccount, createAccount, patchAccount, deleteAccount, getDevice, createDevice, deleteDevice }
+module.exports = { getAccount, createAccount, patchAccount, deleteAccount }
