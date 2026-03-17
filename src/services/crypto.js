@@ -73,7 +73,7 @@ async function verifyJWT(token) {
  * Generates a public and private keypair.
  * Will then store the keypair to disk
  */
-async function generateKeys({ saveToDisk = true } = {}) {
+async function generateKeys() {
     // TODO: Key rotation
     const keys = await jose.generateKeyPair('RS256', { modulusLength: 4096, extractable: true });
     const kid = crypto.randomBytes(16).toString('hex')
