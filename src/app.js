@@ -6,6 +6,7 @@ const methodOverride = require("method-override");
 const { Provider } = require('oidc-provider');
 const session = require('express-session');
 require('dotenv').config()
+const logger = require('./services/logger');
 
 const fs = require("fs");
 
@@ -149,13 +150,11 @@ app.use('/oauth', oidc.callback());
 
 app.use(errorHandler);
 
-// TODO: oidc logging
-// oidc.on('error', (err, ctx) => {
-// 	console.error('OIDC Provider Error:', err);
-// 	console.error('Context:', ctx);
-// });
+oidc.on('error', (err, ctx) => {
+	logger.error("OIDC Provider error", { err, ctx })
+});
 
-// oidc.on('interaction.ended', (ctx) => {
-// 	console.log('Interaction Ended:', ctx);
-// });
+oidc.on('interaction.ended', (ctx) => {
+	logger.debug("OIDC Interaction ended", { ctx })
+});
 module.exports = app;
