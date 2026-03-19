@@ -50,14 +50,14 @@ const OAUTH_CONFIG = {
 	issuer: process.env.HOST_URL,
 
 	clients: [
-		// {
-		// 	client_id: 'OpenMinerva Game Client',
-		// 	redirect_uris: [`org.openminerva.auth://oauth/callback`],
-		// 	grant_types: ['authorization_code'],
-		// 	response_types: ['code'],
-		// 	application_type: 'native',
-		// 	token_endpoint_auth_method: 'none'
-		// },
+		{
+			client_id: 'OpenMinerva-Game-Client',
+			redirect_uris: [`org.openminerva.auth://oauth/callback`],
+			grant_types: ['authorization_code'],
+			response_types: ['code'],
+			application_type: 'native',
+			token_endpoint_auth_method: 'none'
+		},
 		{
 			client_id: 'OpenMinerva-Web',
 			redirect_uris: [`${process.env.HOST_URL}/oauth/callback`],
@@ -70,15 +70,11 @@ const OAUTH_CONFIG = {
 	ttl: {
 		// Authorization Code: Short-lived
 		AuthorizationCode: 10 * 60,
-
 		// Access Token: Short-lived
 		AccessToken: 60 * 60,
-
 		IdToken: 60 * 60,
-
 		// Refresh Token: Long-lived 
 		RefreshToken: 14 * 24 * 60 * 60,
-
 		// Session: Interaction Session (Login state)
 		Session: 12 * 60 * 60
 	},
@@ -95,6 +91,10 @@ const OAUTH_CONFIG = {
 	features: {
 		dPoP: { enabled: true },
 		devInteractions: { enabled: false },
+		registration: { enabled: true },
+		registrationManagement: { enabled: true },
+		// TODO: IS Revocation what I need to revoke login tokens?
+		// revocation: { enabled: false }
 	},
 
 	routes: {

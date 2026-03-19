@@ -87,11 +87,11 @@ async function getPrivKey() {
  * @returns {string} The current public key.
  */
 async function getPubKey() {
-    if (privateKey) {
+    if (publicKey) {
         return publicKey;
     }
     publicKey = await jose.importJWK(JSON.parse(fs.readFileSync("./data/keys/public.json")).keys[0]) || null;
-    return privateKey
+    return publicKey
 }
 
 async function _maybeGenerateKeyPairs() {
