@@ -52,7 +52,7 @@ const OAUTH_CONFIG = {
 	clients: [
 		{
 			client_id: 'OpenMinerva-Game-Client',
-			redirect_uris: [`org.openminerva.auth://oauth/callback`],
+			redirect_uris: [`http://127.0.0.1:54000`],
 			grant_types: ['authorization_code'],
 			response_types: ['code'],
 			application_type: 'native',
