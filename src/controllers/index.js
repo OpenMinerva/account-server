@@ -53,4 +53,13 @@ const getLogout = async (req, res, next) => {
     }
 };
 
-module.exports = { getIndex, getSignup, getLogin, getLogout };
+const getPublicKey = async (req, res, next) => {
+    try {
+        const key = await crypto.getPubKeyPEM()
+        res.set('Content-Type', 'text/plain').send(key);
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports = { getIndex, getSignup, getLogin, getLogout, getPublicKey };

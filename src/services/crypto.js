@@ -94,6 +94,13 @@ async function getPubKey() {
     return publicKey
 }
 
+async function getPubKeyPEM() {
+    if (!publicKey) {
+        return "";
+    }
+    return await jose.exportSPKI(publicKey)
+}
+
 async function _maybeGenerateKeyPairs() {
     const bothFilesExist = fs.existsSync("./data/keys/private.json") && fs.existsSync("./data/keys/public.json");
 
@@ -114,4 +121,4 @@ async function _maybeGenerateKeyPairs() {
 
 _maybeGenerateKeyPairs();
 
-module.exports = { hashPassword, comparePassword, verifyJWT, getPrivKey, getPubKey }
+module.exports = { hashPassword, comparePassword, verifyJWT, getPrivKey, getPubKey, getPubKeyPEM }
