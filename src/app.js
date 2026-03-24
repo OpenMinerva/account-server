@@ -53,7 +53,7 @@ const OAUTH_CONFIG = {
 		{
 			client_id: 'OpenMinerva-Game-Client',
 			redirect_uris: [`http://127.0.0.1:54000`],
-			grant_types: ['authorization_code'],
+			grant_types: ['authorization_code', 'refresh_token'],
 			response_types: ['code'],
 			application_type: 'native',
 			token_endpoint_auth_method: 'none'
@@ -154,7 +154,7 @@ oidc.on('error', (err, ctx) => {
 	logger.error("OIDC Provider error", { err, ctx })
 });
 
-oidc.on('interaction.ended', (ctx) => {
-	logger.debug("OIDC Interaction ended", { ctx })
-});
+// oidc.on('interaction.ended', (ctx) => {
+// 	logger.debug("OIDC Interaction ended", { ctx })
+// });
 module.exports = app;
