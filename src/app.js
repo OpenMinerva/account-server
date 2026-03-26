@@ -89,10 +89,10 @@ const OAUTH_CONFIG = {
 	},
 
 	features: {
-		dPoP: { enabled: true },
 		devInteractions: { enabled: false },
 		registration: { enabled: true },
 		registrationManagement: { enabled: true },
+		introspection: { enabled: true },
 		// TODO: IS Revocation what I need to revoke login tokens?
 		// revocation: { enabled: false }
 	},
