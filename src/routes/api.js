@@ -11,4 +11,8 @@ router.post("/v1/account", isAuth, apiController.createAccount);
 router.patch("/v1/account", isAuth, apiController.patchAccount);
 router.delete("/v1/account", isAuth, apiController.deleteAccount);
 
+// Device keys
+router.post("/v1/device_key", requireAuth, apiController.createDevice);
+// router.delete("/v1/device_key", isAuth, apiController.deleteDevice);
+
 module.exports = router

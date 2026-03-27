@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const accountService = require('../services/account');
+const deviceService = require('../services/device');
 const authService = require('../services/auth');
 const logger = require('../services/logger');
 const crypto = require("../services/crypto")
@@ -33,6 +34,10 @@ async function deleteAccount(req, res, next) {
 	res.status(200).json({ ok: true });
 	return;
 }
+async function createDevice(req, res, next) {
+	const dbResponse = await deviceService.createDevice({ public_key: req.body.public_key, owner_id: req.requestingUser.id });
+	res.status(200).json({ ok: true, response: dbResponse[0] });
+}
 
 function _isRequestAllowedToViewPage(req) {
 	if (req.requestingUser == req.params.account_id) {
@@ -48,4 +53,4 @@ function _isRequestAllowedToViewPage(req) {
 	return false
 }
 
-module.exports = { getAccount, createAccount, patchAccount, deleteAccount }
+module.exports = { getAccount, createAccount, patchAccount, deleteAccount, createDevice }
