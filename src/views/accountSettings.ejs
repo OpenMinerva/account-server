@@ -17,36 +17,7 @@
     <%- include('partials/navbar') %>
 
         <div class="page-content">
-            <h1>Devices</h1>
-            <table class="devices-tables">
-                <thead>
-                    <tr>
-                        <th class="min-width">ID</th>
-                        <th class="min-width">Name</th>
-                        <th class="fit-width">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (device of targetUserDevices) { %>
-                        <tr>
-                            <td class="min-width">
-                                <%= device.id %>
-                            </td>
-                            <td class="min-width">
-                                <%= device.deviceName %>
-                            </td>
-                            <td class="fit-width">
-                                <div class="fit-width">
-                                    <button class="button"><span>View Token</span></button>
-                                    <button class="button"
-                                        onclick="deleteDevice('<%= device.id %>')"><span>Delete</span></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <% } %>
-                </tbody>
-            </table>
-
+            <h1>Not implemented</h1>
         </div>
 </body>
 

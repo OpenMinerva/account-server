@@ -15,8 +15,8 @@ const accounts = sqliteTable("accounts", {
 const devices = sqliteTable("devices", {
 	id: text("id").primaryKey().unique().$defaultFn(() => randomUUID()),
 	deviceName: text("deviceName").notNull(),
-	userId: text("userId").notNull(),
-	pubKey: text("pubKey").notNull(),
+	ownerId: text("ownerId").notNull(),
+	pubKey: text("pubKey").notNull().unique(),
 	dateCreated: integer("dateCreated", { mode: "timestamp_ms" }).default(sql`(unixepoch() * 1000)`).notNull(),
 	dateDeleted: integer("dateDeleted", { mode: "timestamp_ms" })
 });
@@ -26,7 +26,7 @@ const accountsRelations = relations(accounts, ({ many }) => ({
 }));
 
 const devicesRelations = relations(devices, ({ one }) => ({
-	user: one(accounts, { fields: [devices.userId], references: [accounts.id] })
+	user: one(accounts, { fields: [devices.ownerId], references: [accounts.id] })
 }));
 
 module.exports = { accounts, devices };

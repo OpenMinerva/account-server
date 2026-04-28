@@ -7,20 +7,19 @@
 	</div>
 	<div class="nav">
 		<% if (requestingUser) { %>
-			<!--  -->
 			<% if (requestingUser.role=="admin" ) { %>
 				<a href="/admin"><span>Admin</span></a>
-				<% } %>
+			<% } %>
 
-					<% if (requestingUser ) { %>
-						<a href="/account/<%= requestingUser.id%>"><span>Account</span></a>
-						<% } %>
-							<% if (requestingUser) { %>
-								<a href="/logout"><span>Logout</span></a>
-								<% } %>
+			<% if (requestingUser ) { %>
+				<a href="/account/<%= requestingUser.sub%>"><span>Account</span></a>
+			<% } %>
 
-									<% } else { %>
-										<a href="/login"><span>Login</span></a>
-										<%}%>
+			<% if (requestingUser) { %>
+				<a href="/logout"><span>Logout</span></a>
+			<% } %>
+		<% } else { %>
+			<a href="/login"><span>Login</span></a>
+		<% } %>
 	</div>
 </div>

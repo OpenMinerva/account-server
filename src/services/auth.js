@@ -26,6 +26,4 @@ async function authLogin({ username, password }) {
     }
 }
 
-async function authDevice() { }
-
 module.exports = { authLogin }

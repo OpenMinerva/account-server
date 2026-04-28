@@ -4,7 +4,7 @@ const { eq, and } = require("drizzle-orm");
 const crypto = require("../services/crypto");
 const logger = require("../services/logger");
 const ensureSetup = require("../services/setup");
-const { randomUUID } = require('crypto');
+const { randomUUID } = require("crypto")
 
 async function getAccount({ id, username, role } = {}, { includePassword = false } = {}) {
 	let selectQuery = {
@@ -73,66 +73,38 @@ async function createAccount({ username, password, role } = {}) {
 async function updateAccount({ } = {}) { }
 async function deleteAccount({ } = {}) { }
 
-// FIXME: Always returns a device for userId even if the pubkey is different.
-async function getDevice({ id, pubKey, userId } = {}, { } = {}) {
-	try {
-		let selectQuery = {
-			id: devices.id,
-			pubKey: devices.pubKey,
-			userId: devices.userId
-		};
-
-		if (id && userId) {
-			logger.debug("Getting device using device ID and userID.");
-			const dev = (await db.select(selectQuery).from(devices).where(and(eq(devices.id, id), eq(devices.userId, userId))))[0];
-			return dev;
-		}
-
-		if (userId && pubKey) {
-			logger.debug("Getting device using pubkey and userID.");
-			const dev = (await db.select(selectQuery).from(devices).where(and(eq(devices.userId, userId), eq(devices.pubKey, pubKey))))[0];
-			return dev;
-		}
-
-		logger.debug("Getting device using generic query.");
-		return await db.select(selectQuery).from(devices)
-	}
+async function getDevice({ id }) {
+	try { }
 	catch (e) {
-		logger.error("Unknown error trying to search for a device.", e);
+		logger.error("Unknown error trying to get a device.", e);
 		return { ok: false, message: "Unknown error." }
 	}
 }
-async function createDevice({ pubKey, userId } = {}) {
+async function createDevice({ public_key, owner_id } = {}) {
 	try {
-		logger.info(`Creating a device for '${userId}'`);
-		const deviceDatabaseResponse = await db.insert(devices).values({ userId, pubKey, deviceName: randomUUID() }).returning()
-		return deviceDatabaseResponse.id
+		if (!public_key) {
+			logger.warn("Tried to add a device without a public key.");
+			return { ok: false, message: "No public key specified." }
+		}
+		if (!owner_id) {
+			logger.warn("Tried to add a device without a owner.");
+			return { ok: false, message: "No owner specified." }
+		}
+
+		const deviceDatabaseResponse = await db.insert(devices).values({ ownerId: owner_id, pubKey: public_key, deviceName: randomUUID() }).returning()
+
+		return { ok: true, response: deviceDatabaseResponse }
 	}
 	catch (e) {
-		logger.error("Unknown error trying to add a device to a account.", e);
-		return { ok: false, message: "Unknown error." }
-	}
-}
-async function deleteDevice({ id } = {}) {
-	try {
-		logger.debug(`Deleting device '${id}'.`);
-		const response = await db.delete(devices).where(eq(devices.id, id)).returning({ deviceId: devices.id, userId: devices.userId });
-		return response;
-	}
-	catch (e) { }
-}
+		let error_message = "Unknown error trying to add a device to a account."
 
-async function authDevice({ } = {}) { }
-async function authLogin({ username, password } = {}) {
-	try {
-		const targetAccount = getAccount({ username });
-
-		if (!targetAccount) {
-
+		if (e.message.includes("NOT NULL constraint failed")) {
+			error_message = "Not NULL constraint failed."
 		}
-	} catch (e) {
 
+		logger.error(error_message, e);
+		return { ok: false, message: error_message }
 	}
 }
 
-module.exports = { getAccount, createAccount, getDevice, createDevice, deleteDevice, authLogin }
+module.exports = { getAccount, createAccount, getDevice, createDevice }
