@@ -1,3 +1,12 @@
+/* --- License
+ * File: /server.js
+ * Project: account-server
+ * Created Date: 04 December 2025
+ * Copyright (c) 2026 OpenMinerva
+ * License: MIT License
+ * Authors: Armored Dragon
+ * --- License */
+
 require("dotenv").config();
 const app = require("./src/app");
 const logger = require("./src/services/logger");
