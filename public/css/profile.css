@@ -1,0 +1,23 @@
+.page-content .profile-head {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+.page-content .profile-head .profile-picture-container {
+  width: 200px;
+  height: 200px;
+  background-color: black;
+  margin-right: 1rem;
+}
+.page-content .profile-head .profile-badge {
+  display: flex;
+  flex-direction: column;
+}
+.page-content .profile-head .profile-badge .profile-username {
+  font-size: 2rem;
+}
+.page-content .profile-body .profile-biography {
+  font-size: 1.15rem;
+}

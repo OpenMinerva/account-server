@@ -9,8 +9,8 @@ module.exports = async function auth(req, res, next) {
 
         if (decoded.ok == true) {
             req.requestingUser = decoded.response;
-            next();
         }
+        next();
     } catch {
         next();
     }

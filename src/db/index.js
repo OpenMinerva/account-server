@@ -1,9 +1,10 @@
 const { db } = require("./db");
 const { accounts, devices } = require("./schema");
-const { eq } = require("drizzle-orm");
+const { eq, and } = require("drizzle-orm");
 const crypto = require("../services/crypto");
 const logger = require("../services/logger");
 const ensureSetup = require("../services/setup");
+const { randomUUID } = require("crypto")
 
 async function getAccount({ id, username, role } = {}, { includePassword = false } = {}) {
 	let selectQuery = {
@@ -72,21 +73,38 @@ async function createAccount({ username, password, role } = {}) {
 async function updateAccount({ } = {}) { }
 async function deleteAccount({ } = {}) { }
 
-async function getDevice({ } = {}) { }
-async function createDevice({ } = {}) { }
-async function deleteDevice({ } = {}) { }
-
-async function authDevice({ } = {}) { }
-async function authLogin({ username, password } = {}) {
+async function getDevice({ id }) {
+	try { }
+	catch (e) {
+		logger.error("Unknown error trying to get a device.", e);
+		return { ok: false, message: "Unknown error." }
+	}
+}
+async function createDevice({ public_key, owner_id } = {}) {
 	try {
-		const targetAccount = getAccount({ username });
-
-		if (!targetAccount) {
-
+		if (!public_key) {
+			logger.warn("Tried to add a device without a public key.");
+			return { ok: false, message: "No public key specified." }
 		}
-	} catch (e) {
+		if (!owner_id) {
+			logger.warn("Tried to add a device without a owner.");
+			return { ok: false, message: "No owner specified." }
+		}
 
+		const deviceDatabaseResponse = await db.insert(devices).values({ ownerId: owner_id, pubKey: public_key, deviceName: randomUUID() }).returning()
+
+		return { ok: true, response: deviceDatabaseResponse }
+	}
+	catch (e) {
+		let error_message = "Unknown error trying to add a device to a account."
+
+		if (e.message.includes("NOT NULL constraint failed")) {
+			error_message = "Not NULL constraint failed."
+		}
+
+		logger.error(error_message, e);
+		return { ok: false, message: error_message }
 	}
 }
 
-module.exports = { getAccount, createAccount, authLogin }
+module.exports = { getAccount, createAccount, getDevice, createDevice }

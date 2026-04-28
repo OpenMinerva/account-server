@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        <%= targetUser.username %> | PrismLens
+    </title>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" type="text/css" href="/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="/css/profile.css" />
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+        <div class="page-content">
+            <div class="profile-head">
+                <div class="profile-picture-container"></div>
+
+                <div class="profile-badge">
+                    <div class="profile-username">
+                        <%= targetUser.username %>
+                    </div>
+                    <div class="profile-age">
+                        <%= targetUser.dateCreated %>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <a class="button" href="/account/<%=targetUser.id%>/settings">Settings</a>
+                </div>
+            </div>
+            <div class="profile-body">
+                <div class="profile-biography">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porttitor
+                    volutpat auctor. Proin ullamcorper augue suscipit, placerat velit ut, elementum urna. Nam id felis
+                    id mi congue congue at id lacus. Sed nec ultricies eros. Integer eu dignissim nibh. Nam scelerisque
+                    neque sed faucibus interdum. Donec luctus tellus in faucibus volutpat. Nam a tellus at velit
+                    condimentum maximus. </div>
+            </div>
+        </div>
+</body>
+
+</html>
