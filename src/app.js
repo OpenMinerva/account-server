@@ -19,19 +19,6 @@ const logger = require("./services/logger");
 
 const fs = require("fs");
 
-// Error and validation checks
-if (!process.env.SESSION_SECRET) {
-	logger.error("Environment variable 'SESSION_SECRET' is not defied. You must provide a secure secret phrase before launching the account-server.");
-	process.exit();
-}
-if (!process.env.PRIMARY_KEY) {
-	logger.error("Environment variable 'PRIMARY_KEY' is not defied. You must provide a secure PRIMARY_KEY value before launching the account-server.");
-	process.exit();
-}
-if (!process.env.SECONDARY_KEY) {
-	logger.info("Environment variable 'SECONDARY_KEY' is not defied. If you are launching this server for the first time and have not rotated your keys before, this is expected.");
-}
-
 // Routes
 const indexRoutes = require("./routes/index");
 const accountRoutes = require("./routes/account");
