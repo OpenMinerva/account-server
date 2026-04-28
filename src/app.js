@@ -19,6 +19,19 @@ const logger = require("./services/logger");
 
 const fs = require("fs");
 
+// Error and validation checks
+if (!process.env.SESSION_SECRET) {
+	logger.error("Environment variable 'SESSION_SECRET' is not defied. You must provide a secure secret phrase before launching the account-server.");
+	process.exit();
+}
+if (!process.env.PRIMARY_KEY) {
+	logger.error("Environment variable 'PRIMARY_KEY' is not defied. You must provide a secure PRIMARY_KEY value before launching the account-server.");
+	process.exit();
+}
+if (!process.env.SECONDARY_KEY) {
+	logger.info("Environment variable 'SECONDARY_KEY' is not defied. If you are launching this server for the first time and have not rotated your keys before, this is expected.");
+}
+
 // Routes
 const indexRoutes = require("./routes/index");
 const accountRoutes = require("./routes/account");
@@ -42,7 +55,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// FIXME: Throw an error about server being ran in developer mode.
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
@@ -90,7 +102,7 @@ const OAUTH_CONFIG = {
 		Session: 12 * 60 * 60,
 	},
 	cookies: {
-		keys: ["some-very-long-random-secret-key", "another-long-key-for-rotation"],
+		keys: [process.env.PRIMARY_KEY, process.env.SECONDARY_KEY],
 	},
 	claims: {
 		openid: ["sub", "role", "preferred_username"],
