@@ -33,8 +33,12 @@ if (!process.env.SECONDARY_KEY) {
 }
 
 // No configuration errors, start the server.
-const app = require("./src/app");
+const createApp = require("./src/app");
 
-app.listen(process.env.PORT, () => {
-	logger.info(`Server running at '${process.env.HOST_URL}' with port '${process.env.PORT}'`);
-});
+(async () => {
+	const app = await createApp();
+
+	app.listen(process.env.PORT, () => {
+		logger.info(`Server running at '${process.env.HOST_URL}' with port '${process.env.PORT}'`);
+	});
+})();
