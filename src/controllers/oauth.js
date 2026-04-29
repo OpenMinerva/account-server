@@ -10,16 +10,8 @@
 const authService = require("../services/auth");
 
 const callback = async (req, res, next) => {
-	// FIXME:
-	// This is ran when we are wanting to exchange the authorization code for a access token.
-	// This is not meant to be used in production and needs to be removed after testing!
-
-	// FIXME:
-	// Figure out how to do this cookie setting thing without making a request through the web.
-	// Is this normal?
-
-	const COOKIE_SETTINGS = {
-		httpOnly: false,
+	const cookie_settings = {
+		httpOnly: true,
 		secure: process.env.NODE_ENV === "production",
 		sameSite: "lax",
 		maxAge: 24 * 60 * 60 * 1000,
@@ -46,7 +38,7 @@ const callback = async (req, res, next) => {
 		});
 
 		const tokens = await response.json();
-		res.cookie("token", tokens.id_token, COOKIE_SETTINGS);
+		res.cookie("token", tokens.id_token, cookie_settings);
 		res.redirect("/");
 	} catch (error) {
 		console.error(error);
