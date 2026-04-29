@@ -1,5 +1,17 @@
 #!/bin/bash
 
+if [ "$(id -u)" -eq 0 ]; then
+	echo
+    echo "Please do not execute this script as sudo."
+    echo
+    read -p "Do you know what you are doing? [y/N] " choice
+
+	case "$choice" in
+	  y|Y ) echo "Okay...";;
+	  * ) exit 1;;
+	esac
+fi
+
 ENV_FILE=".env"
 
 generate_new_key() {
