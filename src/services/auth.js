@@ -10,6 +10,7 @@
 const cryptoLib = require("../services/crypto");
 const accountService = require("../services/account");
 const logger = require("../services/logger");
+const resBuilder = require("./responseBuilder");
 
 async function authLogin({ username, password }) {
 	try {
@@ -18,7 +19,7 @@ async function authLogin({ username, password }) {
 
 		if (!targetAccount) {
 			logger.debug(`No account found from username.`);
-			return { ok: false, message: "No account found." };
+			return resBuilder.error("No account found.");
 		}
 
 		const passwordMatches = await cryptoLib.comparePassword(password, targetAccount.password);
@@ -29,10 +30,10 @@ async function authLogin({ username, password }) {
 			delete responseAccount.password;
 			logger.debug(`User authorized as account '${responseAccount.username}'.`);
 
-			return { ok: true, response: responseAccount };
+			return resBuilder.success(responseAccount);
 		}
 
-		return { ok: false, ...passwordMatches };
+		return resBuilder.error(passwordMatches);
 	} catch (e) {
 		return false;
 	}
