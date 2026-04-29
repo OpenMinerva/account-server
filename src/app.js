@@ -125,7 +125,7 @@ async function createApp() {
 				headers: { Accept: "application/json" },
 			});
 			response = await response.json();
-			response = response.response;
+			response = response.data;
 
 			return {
 				accountId: response.id,
