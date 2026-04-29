@@ -36,8 +36,9 @@ async function comparePassword(password, passwordHash) {
 }
 async function verifyJWT(token) {
 	try {
-		// TODO: Change this so that it works with the rotated key?
-		let { payload, protectedHeader } = await jose.jwtVerify(token, _publicKey.keys[0]);
+		const jwks = jose.createLocalJWKSet(_publicKey);
+
+		let { payload, protectedHeader } = await jose.jwtVerify(token, jwks);
 
 		if (payload.aud != "OpenMinerva-Web") {
 			logger.debug("JWT had an invalid scope.");
