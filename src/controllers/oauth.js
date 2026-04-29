@@ -110,9 +110,8 @@ const interactionConfirm = async (req, res, next) => {
 			const { username, password } = req.body;
 			const user = await authService.authLogin({ username, password });
 
-			console.log(user);
-
-			if (!user) {
+			// TODO: Redirect to a dedicated invalid credentials page.
+			if (!user || user.ok === false) {
 				return res.status(400).send("Invalid credentials");
 			}
 
