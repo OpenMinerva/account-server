@@ -2,7 +2,7 @@
 > This repository is currently pre-alpha, breaking changes happen frequently, there have not been any security audits, and data loss is expected.
 
 <p align="center">
-  <img height="200" src="https://github.com/openminerva/account-server/blob/alpha/docs/logos/om-logo-big.webp?raw=true" />
+  <img height="150" src="https://github.com/openminerva/account-server/blob/alpha/docs/logos/om-logo-big.webp?raw=true" />
 </p>
 
 # Account Server
