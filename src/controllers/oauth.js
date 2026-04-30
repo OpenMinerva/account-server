@@ -10,16 +10,8 @@
 const authService = require("../services/auth");
 
 const callback = async (req, res, next) => {
-	// FIXME:
-	// This is ran when we are wanting to exchange the authorization code for a access token.
-	// This is not meant to be used in production and needs to be removed after testing!
-
-	// FIXME:
-	// Figure out how to do this cookie setting thing without making a request through the web.
-	// Is this normal?
-
-	const COOKIE_SETTINGS = {
-		httpOnly: false,
+	const cookie_settings = {
+		httpOnly: true,
 		secure: process.env.NODE_ENV === "production",
 		sameSite: "lax",
 		maxAge: 24 * 60 * 60 * 1000,
@@ -46,7 +38,7 @@ const callback = async (req, res, next) => {
 		});
 
 		const tokens = await response.json();
-		res.cookie("token", tokens.id_token, COOKIE_SETTINGS);
+		res.cookie("token", tokens.id_token, cookie_settings);
 		res.redirect("/");
 	} catch (error) {
 		console.error(error);
@@ -65,29 +57,29 @@ const interactionUuid = async (req, res, next) => {
 
 		if (interaction.prompt.name === "login") {
 			res.send(`
-                <!DOCTYPE html>
-                <html>
-                <body>
-                <h1>Login to Account Server</h1>
-                <form method="POST" action="/oauth/interaction/${req.params.uid}/confirm">
-                    <label>Username: <input type="text" name="username" /></label><br/>
-                    <label>Password: <input type="password" name="password" /></label><br/>
-                    <button type="submit">Log In</button>
-                </form>
-                </body>
-                </html>
-            `);
+								<!DOCTYPE html>
+								<html>
+								<body>
+								<h1>Login to Account Server</h1>
+								<form method="POST" action="/oauth/interaction/${req.params.uid}/confirm">
+										<label>Username: <input type="text" name="username" /></label><br/>
+										<label>Password: <input type="password" name="password" /></label><br/>
+										<button type="submit">Log In</button>
+								</form>
+								</body>
+								</html>
+						`);
 		} else if (interaction.prompt.name === "consent") {
 			res.send(`
-            <form method="POST" action="/oauth/interaction/${req.params.uid}/confirm">
-            <h2>Authorize App?</h2>
-            <p>This app wants to access your account.</p>
-            <button type="submit">Authorize</button>
-            </form>
-        `);
+						<form method="POST" action="/oauth/interaction/${req.params.uid}/confirm">
+						<h2>Authorize App?</h2>
+						<p>This app wants to access your account.</p>
+						<button type="submit">Authorize</button>
+						</form>
+				`);
 		} else {
-			// TODO: Generic error
-			// res.status(400).send(`Unexpected prompt: ${interaction.prompt.name}`);
+			// TODO: Error page.
+			return res.status(404).send("Invalid prompt.");
 		}
 	} catch (e) {
 		next(e);

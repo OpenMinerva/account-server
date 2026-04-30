@@ -19,7 +19,6 @@ if (!process.env.PORT) {
 	logger.warn("Environment variable 'PORT' is not defied. Using the default '40400'. You should probably change this.");
 	process.env.PORT = 40400;
 }
-// TODO: Check if the HOST_URL port differs from the process.env.PORT. Easy catch an error.
 if (!process.env.SESSION_SECRET) {
 	logger.error("Environment variable 'SESSION_SECRET' is not defied. You must provide a secure secret phrase before launching the account-server.");
 	process.exit();
