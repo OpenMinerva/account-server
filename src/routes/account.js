@@ -8,4 +8,4 @@ const accountController = require("../controllers/account");
 router.get("/:account_id", isAuth, accountController.getAccount);
 router.get("/:account_id/settings", requireAuth, accountController.getAccountSettings);
 
-module.exports = router
+module.exports = router;

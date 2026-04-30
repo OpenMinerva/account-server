@@ -23,7 +23,7 @@ const fs = require("fs");
 // Routes
 const indexRoutes = require("./routes/index");
 const accountRoutes = require("./routes/account");
-// const adminRoutes = require("./routes/admin");
+const adminRoutes = require("./routes/admin");
 const apiRoutes = require("./routes/api");
 const oauthRoutes = require("./routes/oauth");
 
@@ -152,7 +152,7 @@ async function createApp() {
 	app.use("/api", apiRoutes);
 	app.use(ensureSetup.middleware);
 	app.use("/account", accountRoutes);
-	// app.use("/admin", adminRoutes);
+	app.use("/admin", adminRoutes);
 	app.use("/", indexRoutes);
 	app.use("/oauth", oauthRoutes);
 	app.use("/oauth", oidc.callback());
