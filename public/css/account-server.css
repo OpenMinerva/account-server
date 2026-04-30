@@ -1,0 +1,39 @@
+/* --- License
+* Version: 1.0
+* File: /public/css/account-server.scss
+* Project: account-server
+* Created Date: 14 April 2026
+* Copyright (c) 2026 OpenMinerva
+* License: MIT License
+* Authors: Armored Dragon
+* --- License */
+/* --- License
+* Version: 1.0
+* File: /public/css/colors.scss
+* Project: account-server
+* Created Date: 04 March 2026
+* Copyright (c) 2026 OpenMinerva
+* License: MIT License
+* Authors: Armored Dragon
+* --- License */
+body .container .account-container {
+  width: 100%;
+  min-height: 40px;
+  background-color: rgb(229.5, 229.5, 229.5);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+}
+body .container .account-header .account-picture {
+  aspect-ratio: 1/1;
+  height: 150px;
+  background-color: #cccccc;
+  margin-right: 1rem;
+  border-radius: 10px;
+}
+body .container .account-header .account-info .account-info-name {
+  font-size: 1.5rem;
+}
