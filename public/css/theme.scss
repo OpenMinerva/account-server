@@ -509,7 +509,8 @@ body {
 	}
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
 	border: 1px solid colors.$om-gray8;
 	border-radius: 10px;
 	color: black;
