@@ -56,9 +56,9 @@ const interactionUuid = async (req, res, next) => {
 		}
 
 		if (interaction.prompt.name === "login") {
-			res.render("login", { requestingUser: req.requestingUser, interaction: req.params.uid });
+			res.render("login", { requestingUser: req.requestingUser, interaction: req.params.uid, interactionClient: interaction.params.client_id });
 		} else if (interaction.prompt.name === "consent") {
-			res.render("consent", { requestingUser: req.requestingUser, interaction: req.params.uid });
+			res.render("consent", { requestingUser: req.requestingUser, interaction: req.params.uid, interactionClient: interaction.params.client_id });
 		} else {
 			// TODO: Error page.
 			return res.status(404).send("Invalid prompt.");
