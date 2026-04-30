@@ -1,25 +1,18 @@
-<div class="navbar">
-	<div class="logo">
-		<a href="/">
-			<img src="/img/logoSmall.webp" />
-			<span>PrismLens</span>
-		</a>
-	</div>
-	<div class="nav">
+<nav class="navbar">
+	<a class="logo" href="/">
+		<img src="/img/logos/om-logo-big.webp">
+	</a>
+	<div class="links">
+		<% if (requestingUser && requestingUser.role=="admin" ) { %>
+			<a class="nav-button" href="/admin"><span>Admin</span></a>
+		<% } %>
+		<% if (requestingUser ) { %>
+			<a href="/account/<%= requestingUser.sub%>"><span>Account</span></a>
+		<% } %>
 		<% if (requestingUser) { %>
-			<% if (requestingUser.role=="admin" ) { %>
-				<a href="/admin"><span>Admin</span></a>
-			<% } %>
-
-			<% if (requestingUser ) { %>
-				<a href="/account/<%= requestingUser.sub%>"><span>Account</span></a>
-			<% } %>
-
-			<% if (requestingUser) { %>
-				<a href="/logout"><span>Logout</span></a>
-			<% } %>
+			<a class="nav-button" href="/logout"><span>Logout</span></a>
 		<% } else { %>
-			<a href="/login"><span>Login</span></a>
+			<a class="nav-button" href="/login"> <span>Login</span> </a>
 		<% } %>
 	</div>
-</div>
+</nav>

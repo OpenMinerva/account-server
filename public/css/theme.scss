@@ -1,0 +1,532 @@
+/* --- License
+* Version: 1.0
+* File: /public/css/theme.scss
+* Project: account-server
+* Created Date: 14 April 2026
+* Copyright (c) 2026 OpenMinerva
+* License: MIT License
+* Authors: Armored Dragon
+* --- License */
+@use "colors";
+
+body {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+	nav {
+		display: flex;
+		flex-direction: row;
+		color: white;
+		background-color: colors.$om-gray8;
+		min-height: 50px;
+		height: 50px;
+		padding: 0 1rem;
+		box-sizing: border-box;
+
+		.logo {
+			display: flex;
+			color: white;
+			text-decoration: none;
+			padding: 0.5rem 0.1rem;
+			box-sizing: border-box;
+			margin: auto auto auto 0;
+			font-size: 1.4rem;
+			font-weight: bold;
+			height: 100%;
+
+			img {
+				height: 100%;
+				margin-right: 1rem;
+			}
+		}
+
+		.links {
+			display: flex;
+			flex-direction: row;
+			height: 100%;
+
+			a {
+				color: white;
+				text-decoration: none;
+				height: 100%;
+				min-width: 5rem;
+				background-color: colors.$om-gray8;
+				margin: auto;
+				display: flex;
+				transition: background-color ease-in-out 0.05s;
+
+				&:hover {
+					background-color: colors.$om-gray9;
+				}
+
+				span {
+					margin: auto;
+				}
+			}
+		}
+	}
+
+	.hero {
+		width: 100%;
+		min-height: 300px;
+		height: 300px;
+		background: linear-gradient(-90deg, colors.$om-blue1, colors.$om-blue3);
+		color: white;
+		display: flex;
+		flex-direction: column;
+		border-bottom: 1.5rem solid colors.$om-gray8;
+
+		.hero-title {
+			margin: auto auto 0 auto;
+			font-size: 3rem;
+			box-sizing: border-box;
+			font-weight: bolder;
+		}
+
+		.hero-subtitle {
+			margin: 0 auto auto auto;
+			font-size: 1rem;
+			box-sizing: border-box;
+			font-weight: bold;
+			color: colors.$om-gray1;
+			cursor: help;
+		}
+	}
+
+	.container {
+		width: 1200px;
+		margin: 1rem auto 0 auto;
+
+		.side-by-side {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.flow-grid {
+		}
+
+		.grid {
+			display: grid;
+			gap: 1rem;
+			margin-top: 1rem;
+
+			&.grid-3 {
+				grid-template-columns: repeat(3, 1fr);
+			}
+
+			&.grid-4 {
+				grid-template-columns: repeat(4, 1fr);
+			}
+
+			&.grid-5 {
+				grid-template-columns: repeat(5, 1fr);
+			}
+		}
+
+		.search {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+
+			input[type="text"] {
+				width: 100%;
+				margin-right: 1rem;
+			}
+		}
+
+		.panel {
+			width: 100%;
+			min-height: 10rem;
+			background-color: colors.$om-gray1;
+			border-radius: 20px;
+			margin: auto;
+
+			&.login {
+				padding: 2rem;
+				width: 30rem;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+
+				.input-area {
+					margin: auto auto 0 auto;
+					display: flex;
+					flex-direction: column;
+					margin-bottom: 1rem;
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.admin-container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+
+		.admin-nav {
+			width: 15rem;
+			height: 100%;
+			background-color: colors.$om-gray7;
+
+			.admin-nav-button {
+				color: white;
+				display: flex;
+				flex-direction: row;
+				height: 3rem;
+				text-decoration: none;
+				transition: background-color ease-in-out 0.05s;
+
+				.btn-text {
+					margin: auto;
+				}
+
+				&:hover {
+					background-color: colors.$om-gray8;
+				}
+			}
+		}
+
+		.admin-content {
+			width: 700px;
+			margin: 0 auto;
+
+			.admin-page {
+				color: black;
+				margin-top: 2rem;
+
+				.admin-page-header {
+					font-size: 2rem;
+					text-align: center;
+				}
+
+				.settings-container {
+					display: flex;
+					flex-direction: column;
+					margin-top: 1rem;
+					gap: 0.5rem;
+
+					.setting {
+						background-color: colors.$om-gray1;
+						display: flex;
+						flex-direction: row;
+						padding: 0.5rem;
+						box-sizing: border-box;
+						border-radius: 5px;
+
+						.label {
+							margin: auto auto auto 0;
+						}
+
+						.interact {
+							input[type="checkbox"] {
+								width: 20px;
+								height: 20px;
+								cursor: pointer;
+							}
+						}
+					}
+				}
+			}
+
+			.admin-settings-save-container {
+				display: flex;
+				flex-direction: row;
+				margin-top: 1rem;
+				width: 100%;
+
+				.button {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.spacing-container {
+		gap: 0.25rem;
+		display: flex;
+	}
+
+	footer {
+		margin: auto 0 0 0;
+		min-height: 50px;
+		background-color: colors.$om-gray8;
+		display: flex;
+
+		.center {
+			margin: auto;
+
+			a {
+				color: white;
+				transition: color ease-in-out 0.1s;
+
+				&:hover {
+					color: darken(white, 30%);
+				}
+			}
+		}
+	}
+
+	dialog {
+		border-radius: 20px;
+		width: 500px;
+		border: 0;
+
+		&::backdrop {
+			background: #000000cc;
+		}
+
+		.dialog-content {
+			.add-entry {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				margin-bottom: 1rem;
+				gap: 1rem;
+
+				input {
+					width: 100%;
+				}
+
+				.button {
+					aspect-ratio: 1/1;
+					width: initial;
+				}
+			}
+
+			.table-container {
+				max-height: 500px;
+				overflow-y: auto;
+
+				table {
+					width: 100%;
+					border: 0;
+					border-collapse: collapse;
+
+					thead {
+						position: sticky;
+						top: 0;
+
+						tr {
+							border: 0;
+
+							th {
+								border: 0;
+								background-color: colors.$om-gray2;
+								width: 100%;
+							}
+
+							.shrink {
+								width: min-content;
+								padding: 0 1rem 0 0;
+								box-sizing: border-box;
+							}
+						}
+					}
+
+					tbody {
+						tr {
+							&:nth-child(even) {
+								background-color: colors.$om-gray1;
+							}
+
+							&:hover {
+								background-color: colors.$om-gray3;
+							}
+
+							td {
+								border: 0;
+								padding: 0 0 0 1rem;
+								box-sizing: border-box;
+
+								&.actions {
+									display: flex;
+									flex-direction: row;
+									padding: 0.2rem;
+									box-sizing: border-box;
+
+									a {
+										margin: auto;
+									}
+
+									.button-trash {
+										background-color: colors.$om-red1;
+										aspect-ratio: 1/1;
+										width: initial;
+
+										&:hover {
+											background-color: colors.$om-red3;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.admin-settings-save-container {
+			display: flex;
+			flex-direction: row;
+			margin-top: 1rem;
+			width: 100%;
+			gap: 1rem;
+
+			.button {
+				width: 100%;
+			}
+
+			.button.dull {
+				background-color: colors.$om-gray1;
+				color: black;
+
+				&:hover {
+					background-color: colors.$om-gray3;
+				}
+			}
+		}
+	}
+}
+
+// Defaults
+.btn-container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	margin-top: 1rem;
+
+	button,
+	.btn {
+		width: 100%;
+	}
+}
+
+.btn {
+	padding: 0 1rem;
+	box-sizing: border-box;
+	background-color: colors.$om-blue1;
+	transition: background-color ease-in-out 0.05s;
+	border-radius: 10px;
+	color: white;
+	cursor: pointer;
+	text-decoration: none;
+	width: 10rem;
+	height: 35px;
+	display: flex;
+	border: 0;
+
+	.btn-icon-container {
+		height: 100%;
+		display: flex;
+		margin: auto;
+
+		img {
+			height: 100%;
+			padding: 0.2rem;
+			box-sizing: border-box;
+			margin: auto;
+		}
+	}
+
+	.btn-text {
+		font-size: 1rem;
+		font-weight: normal;
+		text-decoration: none;
+		user-select: none;
+		text-align: center;
+		margin: auto;
+	}
+
+	&:hover {
+		background-color: colors.$om-blue2;
+	}
+
+	&.btn-icon-only {
+		width: 4rem;
+	}
+}
+
+.btn.btn-red {
+	background-color: colors.$om-red1;
+
+	&:hover {
+		background-color: colors.$om-red2;
+	}
+}
+
+.btn.btn-gray {
+	background-color: colors.$om-gray6;
+
+	&:hover {
+		background-color: colors.$om-gray8;
+	}
+}
+
+.drop-select {
+}
+
+.drop-multiselect {
+}
+
+.drop-multiselect,
+.drop-select {
+	display: flex;
+	position: relative;
+
+	.drop-menu {
+		display: none;
+		border: 1px solid #ccc;
+		background-color: white;
+		padding: 5px;
+		position: absolute;
+		color: black;
+		width: max-content;
+		border-radius: 10px;
+		z-index: 2;
+		top: 0;
+
+		label {
+			padding: 0.25rem;
+			box-sizing: border-box;
+		}
+	}
+
+	input[type="checkbox"]:checked ~ .drop-menu {
+		display: flex;
+		flex-direction: column;
+		top: 100%;
+	}
+
+	input[type="checkbox"]:checked + .button {
+		background-color: colors.$om-blue3;
+	}
+}
+
+input[type="text"] {
+	border: 1px solid colors.$om-gray8;
+	border-radius: 10px;
+	color: black;
+	padding: 0.05rem 0.5rem;
+	font-size: 1.1rem;
+}
+
+// Scaling
+@media screen and (max-width: 1210px) {
+	body {
+		.container {
+			width: 95%;
+		}
+	}
+}
+
+// Overrides
+.hidden {
+	display: none !important;
+}

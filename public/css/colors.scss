@@ -1,9 +1,35 @@
-$bg-1: #2e3132;
-$bg-2: #4b4f53;
+/* --- License
+* Version: 1.0
+* File: /public/css/colors.scss
+* Project: account-server
+* Created Date: 04 March 2026
+* Copyright (c) 2026 OpenMinerva
+* License: MIT License
+* Authors: Armored Dragon
+* --- License */
 
-$bg-button: #445c75;
-$bg-button-hover: #2d3c4d;
-$bg-button-disabled: #313840;
+$om-gray1: darken(white, 10%);
+$om-gray2: darken(white, 20%);
+$om-gray3: darken(white, 30%);
+$om-gray4: darken(white, 40%);
+$om-gray5: darken(white, 50%);
+$om-gray6: darken(white, 60%);
+$om-gray7: darken(white, 70%);
+$om-gray8: darken(white, 80%);
+$om-gray9: darken(white, 90%);
 
-$text-color: white;
-$dull-text-color: rgb(200, 200, 200);
+$om-blue1: #0077ff;
+$om-blue2: darken(#0077ff, 20%);
+$om-blue3: darken(#0077ff, 30%);
+$om-blue4: darken(#0077ff, 40%);
+$om-blue5: darken(#0077ff, 50%);
+
+$om-red1: darken(#ff1e00, 10%);
+$om-red2: darken(#ff1e00, 20%);
+$om-red3: darken(#ff1e00, 30%);
+$om-red4: darken(#ff1e00, 40%);
+$om-red5: darken(#ff1e00, 50%);
+$om-red6: darken(#ff1e00, 60%);
+$om-red7: darken(#ff1e00, 70%);
+$om-red8: darken(#ff1e00, 80%);
+$om-red9: darken(#ff1e00, 90%);
