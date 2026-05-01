@@ -5,9 +5,7 @@
   <img height="150" src="https://github.com/openminerva/account-server/blob/alpha/docs/logos/om-logo-big.webp?raw=true" />
 </p>
 
-<p align="center">
-	[![](https://dcbadge.limes.pink/api/server/https://discord.gg/Kx6avB52gK)](https://discord.gg/Kx6avB52gK)
-</p>
+[![](https://dcbadge.limes.pink/api/server/https://discord.gg/Kx6avB52gK)](https://discord.gg/Kx6avB52gK)
 
 # Account Server
 
