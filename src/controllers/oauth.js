@@ -56,27 +56,9 @@ const interactionUuid = async (req, res, next) => {
 		}
 
 		if (interaction.prompt.name === "login") {
-			res.send(`
-								<!DOCTYPE html>
-								<html>
-								<body>
-								<h1>Login to Account Server</h1>
-								<form method="POST" action="/oauth/interaction/${req.params.uid}/confirm">
-										<label>Username: <input type="text" name="username" /></label><br/>
-										<label>Password: <input type="password" name="password" /></label><br/>
-										<button type="submit">Log In</button>
-								</form>
-								</body>
-								</html>
-						`);
+			res.render("login", { requestingUser: req.requestingUser, interaction: req.params.uid, interactionClient: interaction.params.client_id });
 		} else if (interaction.prompt.name === "consent") {
-			res.send(`
-						<form method="POST" action="/oauth/interaction/${req.params.uid}/confirm">
-						<h2>Authorize App?</h2>
-						<p>This app wants to access your account.</p>
-						<button type="submit">Authorize</button>
-						</form>
-				`);
+			res.render("consent", { requestingUser: req.requestingUser, interaction: req.params.uid, interactionClient: interaction.params.client_id });
 		} else {
 			// TODO: Error page.
 			return res.status(404).send("Invalid prompt.");

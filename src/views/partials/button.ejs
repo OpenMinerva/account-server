@@ -1,0 +1,14 @@
+<%
+	const isIconOnly = typeof icon !== 'undefined' && (typeof text === 'undefined' || !text);
+%>
+
+<a class="btn btn-<%= type %> <%= isIconOnly ? 'btn-icon-only' : '' %>" data-action="<%= action %>" href="javascript:;">
+    <% if (typeof icon !== 'undefined') { %>
+        <div class="btn-icon-container">
+            <img src="<%= icon %>" alt="">
+        </div>
+    <% } %>
+	<% if (typeof text !== 'undefined') { %>
+    	<div class="btn-text"><%= text %></div>
+    <% } %>
+</a>

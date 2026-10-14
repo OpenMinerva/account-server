@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>OpenMinerva | Account Server</title>
+		<%- include('partials/head') %>
+		<link rel="stylesheet" type="text/css" href="/css/theme.css" />
+		<link rel="stylesheet" type="text/css" href="/css/account-server.css" />
+	</head>
+
+	<body>
+		<%- include('partials/navbar') %>
+		<div class="hero">
+			<div class="hero-title">Account Server</div>
+			<div class="hero-subtitle" title="Give form to your soul, and let your character follow.">Da formam animae tuae, ingeniumque sequatur.</div>
+		</div>
+		<div class="container">
+			<form method="POST" class="panel login" action="/oauth/interaction/<%=interaction%>/confirm">
+				<h2>Authorize '<%= interactionClient %>'?</h2>
+				<p>This app wants to access your account.</p>
+				<div class="btn-container">
+					<button class="btn" type="submit">
+						<div class="btn-text">Authorize</div>
+					</button>
+				</div>
+			</form>
+		</div>
+		<%- include('partials/footer') %>
+	</body>
+</html>

@@ -7,35 +7,27 @@
  * Authors: Armored Dragon
  * --- License */
 
-const accountService = require("../services/account");
+const crypto = require("../services/crypto.js");
+const logger = require("../services/logger");
 
 module.exports = async function auth(req, res, next) {
 	const token = req.cookies?.token || req.headers["authorization"]?.split(" ")[1];
 	if (!token) return res.redirect("/");
 
+	logger.debug("Validating request token.");
 	try {
-		const introspectionResponse = await fetch(`${process.env.HOST_URL}/oauth/token/introspection`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded",
-			},
-			body: new URLSearchParams({
-				client_id: "OpenMinerva-Game-Client",
-				token: token,
-			}),
-		});
+		const decoded = await crypto.verifyJWT(token);
 
-		const database_response = await introspectionResponse.json();
-
-		if (database_response.active) {
-			const target_user = await accountService.getAccount({ id: database_response.sub });
-			req.requestingUser = target_user;
+		if (decoded.ok == true) {
+			req.requestingUser = decoded.data;
 			next();
 			return;
 		}
 
 		res.status(401).redirect("/");
-	} catch (e) {
+		return;
+	} catch {
 		res.status(401).redirect("/");
+		return;
 	}
 };

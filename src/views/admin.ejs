@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>OpenMinerva | Account Server</title>
+	<%- include('partials/head') %>
+	<link rel="stylesheet" type="text/css" href="/css/theme.css" />
+	<link rel="stylesheet" type="text/css" href="/css/account-server.css" />
+</head>
+
+<body>
+	<%- include('partials/navbar') %>
+	<div class="admin-container">
+		<div class="admin-nav">
+			<a class="admin-nav-button" onclick="changeDisplayPage('general')" href="javascript:;">
+				<div class="btn-icon-container">
+					<img src="">
+				</div>
+				<div class="btn-text">General</div>
+			</a>
+
+			<a class="admin-nav-button" onclick="changeDisplayPage('api')" href="javascript:;">
+				<div class="btn-icon-container">
+					<img src="">
+				</div>
+				<div class="btn-text">API</div>
+			</a>
+		</div>
+
+		<div class="admin-content">
+
+			<!--<div id="admin-general" class="admin-page">
+				<div class="admin-page-header">General</div>
+				<div class="settings-container">
+
+					<div class="setting" data-setting-name="serverName">
+						<div class="label">Server Name</div>
+						<div class="interact">
+							<input type="text" value="<%= config.general.serverName %>">
+						</div>
+					</div>
+
+					<div class="setting" data-setting-name="general-admins">
+						<div class="label">Admins</div>
+						<div class="interact">
+							<%- include('partials/button', { type: 'normal', text: 'Open Dialog', action: 'open-admins' }) %>
+						</div>
+					</div>
+
+				</div>
+				<div class="btn-container">
+					<%- include('partials/button', { type: 'normal', text: 'Save', action: 'save-general' }) %>
+				</div>
+			</div>
+
+			<div id="admin-api" class="admin-page hidden">
+				<div class="admin-page-header">API</div>
+				<div class="settings-container">
+					<div class="setting" data-setting-name="enableAPI">
+						<div class="label">Enable API Service</div>
+						<div class="interact">
+							<input type="checkbox" checked="<%= config.api.enabled %>">
+						</div>
+					</div>
+				</div>
+				<div class="btn-container">
+					<%- include('partials/button', { type: 'normal', text: 'Save', action: 'save-api' }) %>
+				</div>
+			</div>-->
+		</div>
+	</div>
+	<%- include('partials/footer') %>
+
+	<dialog id="general-server-admins">
+		<h2>Admins</h2>
+		<p>These accounts have administration privileges on the account server.</p>
+
+		<!--<div class="dialog-content">
+			<div class="add-entry">
+				<input type="text" placeholder="Server URL">
+
+				<%- include('partials/button', { type: 'normal', action: 'add-general-admins-entry', icon: "/img/icons/add.svg" }) %>
+			</div>
+			<div class="table-container">
+				<table class="whitelist-table">
+					<thead>
+						<tr>
+							<th>Server URL</th>
+							<th class="shrink">Remove</th>
+						</tr>
+					</thead>
+					<tbody id="general-server-admins-table">
+
+					</tbody>
+				</table>
+			</div>
+		</div>-->
+
+
+		<form method="dialog">
+			<div class="btn-container">
+				<%- include('partials/button', { type: 'gray', text: 'Close', action: 'close-general-admins' }) %>
+				<%- include('partials/button', { type: 'normal', text: 'Save', action: 'save-general-admins' }) %>
+			</div>
+		</form>
+	</dialog>
+</body>
+
+<template id="template-server-admins">
+	<tr>
+		<td data-template-id="name"></td>
+		<td class="actions">
+			<%- include('partials/button', { type: 'red', action: 'trash', icon: '/img/icons/trash.svg' }) %>
+		</td>
+	</tr>
+</template>
+
+<script>
+	window.serverConfig = <%- JSON.stringify(config) %>;
+</script>
+<script src="/js/admin.js"></script>
+</html>
