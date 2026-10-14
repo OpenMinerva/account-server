@@ -65,7 +65,7 @@ body nav .links a {
   transition: background-color ease-in-out 0.05s;
 }
 body nav .links a:hover {
-  background-color: rgb(25.5, 25.5, 25.5);
+  background-color: rgb(10%, 10%, 10%);
 }
 body nav .links a span {
   margin: auto;
@@ -74,7 +74,7 @@ body .hero {
   width: 100%;
   min-height: 300px;
   height: 300px;
-  background: linear-gradient(-90deg, #0077ff, rgb(0, 47.6, 102));
+  background: linear-gradient(-90deg, #0077ff, rgb(0%, 18.6666666667%, 40%));
   color: white;
   display: flex;
   flex-direction: column;
@@ -91,7 +91,7 @@ body .hero .hero-subtitle {
   font-size: 1rem;
   box-sizing: border-box;
   font-weight: bold;
-  color: rgb(229.5, 229.5, 229.5);
+  color: rgb(90%, 90%, 90%);
   cursor: help;
 }
 body .container {
@@ -128,7 +128,7 @@ body .container .search input[type=text] {
 body .container .panel {
   width: 100%;
   min-height: 10rem;
-  background-color: rgb(229.5, 229.5, 229.5);
+  background-color: rgb(90%, 90%, 90%);
   border-radius: 20px;
   margin: auto;
 }
@@ -155,7 +155,7 @@ body .admin-container {
 body .admin-container .admin-nav {
   width: 15rem;
   height: 100%;
-  background-color: rgb(76.5, 76.5, 76.5);
+  background-color: rgb(30%, 30%, 30%);
 }
 body .admin-container .admin-nav .admin-nav-button {
   color: white;
@@ -190,7 +190,7 @@ body .admin-container .admin-content .admin-page .settings-container {
   gap: 0.5rem;
 }
 body .admin-container .admin-content .admin-page .settings-container .setting {
-  background-color: rgb(229.5, 229.5, 229.5);
+  background-color: rgb(90%, 90%, 90%);
   display: flex;
   flex-direction: row;
   padding: 0.5rem;
@@ -232,7 +232,7 @@ body footer .center a {
   transition: color ease-in-out 0.1s;
 }
 body footer .center a:hover {
-  color: rgb(178.5, 178.5, 178.5);
+  color: rgb(70%, 70%, 70%);
 }
 body dialog {
   border-radius: 20px;
@@ -283,10 +283,10 @@ body dialog .dialog-content .table-container table thead tr .shrink {
   box-sizing: border-box;
 }
 body dialog .dialog-content .table-container table tbody tr:nth-child(even) {
-  background-color: rgb(229.5, 229.5, 229.5);
+  background-color: rgb(90%, 90%, 90%);
 }
 body dialog .dialog-content .table-container table tbody tr:hover {
-  background-color: rgb(178.5, 178.5, 178.5);
+  background-color: rgb(70%, 70%, 70%);
 }
 body dialog .dialog-content .table-container table tbody tr td {
   border: 0;
@@ -321,11 +321,11 @@ body dialog .admin-settings-save-container .button {
   width: 100%;
 }
 body dialog .admin-settings-save-container .button.dull {
-  background-color: rgb(229.5, 229.5, 229.5);
+  background-color: rgb(90%, 90%, 90%);
   color: black;
 }
 body dialog .admin-settings-save-container .button.dull:hover {
-  background-color: rgb(178.5, 178.5, 178.5);
+  background-color: rgb(70%, 70%, 70%);
 }
 
 .btn-container {
@@ -374,7 +374,7 @@ body dialog .admin-settings-save-container .button.dull:hover {
   margin: auto;
 }
 .btn:hover {
-  background-color: rgb(0, 71.4, 153);
+  background-color: rgb(0%, 28%, 60%);
 }
 .btn.btn-icon-only {
   width: 4rem;
@@ -425,7 +425,7 @@ body dialog .admin-settings-save-container .button.dull:hover {
 }
 .drop-multiselect input[type=checkbox]:checked + .button,
 .drop-select input[type=checkbox]:checked + .button {
-  background-color: rgb(0, 47.6, 102);
+  background-color: rgb(0%, 18.6666666667%, 40%);
 }
 
 input[type=text],

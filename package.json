@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "better-sqlite3": "^12.5.0",
+    "better-sqlite3": "12.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.3.1",
@@ -14,7 +14,7 @@
     "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
     "multer": "^2.0.2",
-    "oidc-provider": "^9.7.0",
+    "oidc-provider": "^9.12.2",
     "sharp": "^0.34.5",
     "winston": "^3.18.3"
   }
